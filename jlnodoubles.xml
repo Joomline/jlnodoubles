@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE extension>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>System - NO doubles</name>
+	<author>JoomLine</author>
+	<creationDate>24.03.2014</creationDate>
+	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>sale@joomline.ru</authorEmail>
+	<authorUrl>joomline.ru</authorUrl>
+	<version>1.1</version>
+	<description>Плагин убирает дубли страниц в компоненте com_content. Возможен 301 редирект на правильную страницу, либо вывод 404 ошибки</description>
+	<files>
+		<filename plugin="jlnodoubles">jlnodoubles.php</filename>
+		<folder>jlnodoubles</folder>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+					<field name="301redirect" type="list" default="1" 
+					 label="Использовать для перенаправления 301 редирект вместо вывода 404 ошибки">
+					  <option value="0">No</option>
+					  <option value="1">Yes</option>
+					</field>
+					<field name="homealias" type="text" default="home" 
+					label="Алиас, на который заменяется component/content/article" />
+
+					<field name="componentsvars" type="components" addfieldpath="/plugins/system/jlnodoubles/jlnodoubles" default="" 
+					label="Значения переменных, получаемых из адресной строки, при наличии которых редиректы невозможны (значения переменных указывать через запятую). Если поле значений переменной пустое, то перенаправление не происходит ни при каких значениях переменной. Отметьте чекбоксами те компоненты, для которых действуют редиректы" />
+
+			</fieldset>
+		</fields>
+	</config>	
+</extension>
