@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE extension>
 <extension version="2.5" type="plugin" group="system" method="upgrade">
-	<name>System - NO doubles</name>
+	<name>PLG_JLNODUBLES</name>
 	<author>JoomLine</author>
 	<creationDate>24.03.2014</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
@@ -9,12 +9,18 @@
 	<authorEmail>sale@joomline.ru</authorEmail>
 	<authorUrl>joomline.ru</authorUrl>
 	<version>1.1</version>
-	<description>Плагин убирает дубли страниц в компоненте com_content. Возможен 301 редирект на правильную страницу, либо вывод 404 ошибки</description>
+	<description>PLG_JLNODUBLES_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="jlnodoubles">jlnodoubles.php</filename>
 		<filename>index.html</filename>
 		<folder>jlnodoubles</folder>
 	</files>
+	<languages folder="language">
+        <language tag="ru-RU">ru-RU/ru-RU.plg_system_jlnodoubles.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_system_jlnodoubles.sys.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_jlnodoubles.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_system_jlnodoubles.sys.ini</language>
+    </languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

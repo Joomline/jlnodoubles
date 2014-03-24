@@ -223,7 +223,7 @@ class plgSystemShnodoubles extends JPlugin
         	   header( 'HTTP/1.1 301 Moved Permanently' );
         	   header( 'Location: ' . $link );
 	      }else {
-			JError::raiseError( 404, JText::_( 'Страница не найдена' ) );
+			JError::raiseError( 404, JText::_( 'PLG_JLNODUBLES_NOPAGE' ) );
 			return false;
 			}
 	}

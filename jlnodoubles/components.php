@@ -48,7 +48,7 @@ class JFormFieldComponents extends JFormField {
 
 	echo '<div id="sh_component_wrapper">';
 	$all=new stdClass();
-	$all->value=0; $all->text=JText::_('Все компоненты');
+	$all->value=0; $all->text=JText::_('PLG_JLNODUBLES_ALL_COMPONENTS');
 	array_unshift($components, $all);
 	$odd_even=1;
 	foreach ($components as $component){
@@ -61,7 +61,7 @@ class JFormFieldComponents extends JFormField {
 			echo '<div class="sh_component_name">';
 			if($component->value) echo '<input type="checkbox" onclick="shnodoubles_com_checkbox(this, \''.$component->value.'\')" class="shnodoubles_com_checkbox" name="'.$this->name.'['.$component->value.'][checkbox]" '.$checked.'>';
 			echo $component->text;
-			echo '<input type="button" value="'.JText::_('Добавить новую переменную').'" onclick="shnodoubles_add_var(this, \''.$component->value.'\')" class="shnodoubles_add_var">';
+			echo '<input type="button" value="'.JText::_('PLG_JLNODUBLES_ADD_VAR').'" onclick="shnodoubles_add_var(this, \''.$component->value.'\')" class="shnodoubles_add_var">';
 			echo '</div>';
 
 			if(!isset($this->value[$component->value])){
@@ -76,9 +76,9 @@ class JFormFieldComponents extends JFormField {
 
 			for($i=0; $i< sizeof($this->value[$component->value]["var_name"]); $i++){
 				echo '<div class="sh_component_value">';
-					echo '<input name="'.$this->name.'['.$component->value.'][var_name][]" placeholder="'.JText::_('Переменная').'" value="'.$this->value[$component->value]["var_name"][$i].'">';
-					echo '<input name="'.$this->name.'['.$component->value.'][var_value][]" placeholder="'.JText::_('Значения через запятую').'" class="sh_component_var_value"  value="'.$this->value[$component->value]["var_value"][$i].'">';
-					echo '<input type="button" value="'.JText::_('Удалить').'" onclick="shnodoubles_remove_var(this)" class="shnodoubles_remove_var">';
+					echo '<input name="'.$this->name.'['.$component->value.'][var_name][]" placeholder="'.JText::_('PLG_JLNODUBLES_VAR').'" value="'.$this->value[$component->value]["var_name"][$i].'">';
+					echo '<input name="'.$this->name.'['.$component->value.'][var_value][]" placeholder="'.JText::_('PLG_JLNODUBLES_COMPONENT_VAR_VALUE').'" class="sh_component_var_value"  value="'.$this->value[$component->value]["var_value"][$i].'">';
+					echo '<input type="button" value="'.JText::_('PLG_JLNODUBLES_DEL').'" onclick="shnodoubles_remove_var(this)" class="shnodoubles_remove_var">';
 				echo '</div>';
 			}
 			
@@ -96,7 +96,7 @@ class JFormFieldComponents extends JFormField {
 		function shnodoubles_add_var(self, component_id){
 			var new_var_wrapper = document.createElement('div');
 			new_var_wrapper.className='sh_component_value';
-			new_var_wrapper.innerHTML= '<input name=\"".$this->name."['+component_id+'][var_name][]\" placeholder=\"".JText::_('Переменная')."\" /><input name=\"".$this->name."['+component_id+'][var_value][]\" placeholder=\"".JText::_('Значения через запятую')."\" class=\"sh_component_var_value\"><input type=\"button\" value=\"".JText::_('Удалить')."\" onclick=\"shnodoubles_remove_var(this)\" class=\"shnodoubles_remove_var\">';
+			new_var_wrapper.innerHTML= '<input name=\"".$this->name."['+component_id+'][var_name][]\" placeholder=\"".JText::_('PLG_JLNODUBLES_VAR')."\" /><input name=\"".$this->name."['+component_id+'][var_value][]\" placeholder=\"".JText::_('PLG_JLNODUBLES_COMPONENT_VAR_VALUE')."\" class=\"sh_component_var_value\"><input type=\"button\" value=\"".JText::_('PLG_JLNODUBLES_DEL')."\" onclick=\"shnodoubles_remove_var(this)\" class=\"shnodoubles_remove_var\">';
 			document.getElementById('sh_component_'+component_id).appendChild(new_var_wrapper);
 		}
 		function shnodoubles_com_checkbox(self, component_id){
