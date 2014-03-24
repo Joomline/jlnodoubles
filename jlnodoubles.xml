@@ -12,6 +12,7 @@
 	<description>Плагин убирает дубли страниц в компоненте com_content. Возможен 301 редирект на правильную страницу, либо вывод 404 ошибки</description>
 	<files>
 		<filename plugin="jlnodoubles">jlnodoubles.php</filename>
+		<filename>index.html</filename>
 		<folder>jlnodoubles</folder>
 	</files>
 	<config>
