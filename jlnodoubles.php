@@ -15,7 +15,7 @@ jimport( 'joomla.error.error' );
 if (!defined('DS')){
     define('DS',DIRECTORY_SEPARATOR);
 }
-class plgSystemShnodoubles extends JPlugin
+class plgSystemJlnodoubles extends JPlugin
 {
 
 	public static $noRedirect = null;
