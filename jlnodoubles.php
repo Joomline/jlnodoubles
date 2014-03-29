@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 jimport( 'joomla.error.error' );
-if (!defined('DS')){
-    define('DS',DIRECTORY_SEPARATOR);
-}
+
 class plgSystemJlnodoubles extends JPlugin
 {
 
@@ -147,7 +145,7 @@ class plgSystemJlnodoubles extends JPlugin
 		}else if($option=="com_content"){
 				//$view=JRequest::getVar('view', '', 'get');				
 				if($view=='category'){
-					include_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+					include_once(JPATH_SITE.'/components/com_content/helpers/route.php');
 					
 					$catlink=JRoute::_(ContentHelperRoute::getCategoryRoute($allGet['id']));
 					//echo '<pre>allGet1::'.print_r($catlink,true).'</pre>';
