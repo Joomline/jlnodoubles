@@ -15,6 +15,7 @@
         <filename>index.html</filename>
         <folder>assets</folder>
         <folder>elements</folder>
+        <folder>helpers</folder>
     </files>
     <languages folder="language">
         <language tag="ru-RU">ru-RU/ru-RU.plg_system_jlnodoubles.ini</language>
