@@ -37,6 +37,13 @@
             </fieldset>
             <fieldset name="basic">
                 <field
+                        name="key"
+                        type="text"
+                        default="home"
+                        label="PLG_JLNODUBLES_KEY"
+                        description="PLG_JLNODUBLES_KEY_DESC"
+                        />
+                <field
                         name="301redirect"
                         type="list"
                         default="1"
