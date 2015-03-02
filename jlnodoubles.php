@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 jimport('joomla.error.error');
+require_once JPATH_ROOT . '/plugins/system/jlnodoubles/helpers/helper.php';
 
 class plgSystemJlnodoubles extends JPlugin
 {
@@ -55,24 +56,10 @@ class plgSystemJlnodoubles extends JPlugin
 
         $defValue = array(
             array(
-                'var_name' => array(
-                    'task',
-                    'format',
-                    'no_html',
-                    'tmpl',
-                ),
-                'var_value' => array(
-                    'save, edit, add, delete, apply',
-                    'nohtml',
-                    '1',
-                    'component'
-                )
+                'var_name' => array( 'task', 'format', 'no_html', 'tmpl' ),
+                'var_value' => array( 'save, edit, add, delete, apply', 'nohtml', '1', 'component' )
             ),
-            'com_content' => array(
-                'checkbox' => 'on',
-                'var_name' => array(''),
-                'var_value' => array('')
-            )
+            'com_content' => array( 'checkbox' => 'on', 'var_name' => array(''), 'var_value' => array('') )
         );
 
         $componentsvars = $this->params->get('componentsvars', $defValue);
@@ -122,7 +109,24 @@ class plgSystemJlnodoubles extends JPlugin
             }
         }
 
-        if ($option && ($option != "com_content")) {
+        $helperPath = JPATH_ROOT.'/plugins/system/jlnodoubles/helpers/'.$option.'.php';
+
+        if(is_file($helperPath) && ($option == 'com_content' || self::$isPro))
+        {
+            require_once $helperPath;
+            $class = 'JLNodoubles_' . $option . '_helper';
+            if(class_exists($class))
+            {
+                $this->params->set('isPro', self::$isPro);
+                $helper = new $class($this->params);
+                if(method_exists($helper, 'go'))
+                {
+                    return $helper->go($allGet);
+                }
+            }
+        }
+        else if ($option)
+        {
             $allGetArr = array();
             foreach ($allGet as $ag_name => $ag_value) {
                 if ($ag_name && $ag_value) $allGetArr[] = $ag_name . '=' . $ag_value;
@@ -140,80 +144,7 @@ class plgSystemJlnodoubles extends JPlugin
 
             $redirectLink = JRoute::_('index.php?' . implode('&', $allGetArr));
             if ($redirectLink != $currentLink) {
-                $this->shRedirect($redirectLink);
-            }
-
-        }
-        else if ($option == "com_content")
-        {
-            $original_link = '';
-            $homealias = $this->params->get('homealias', 'home');
-            $currentLink = $u->toString(array('path', 'query'));
-            include_once(JPATH_SITE . '/components/com_content/helpers/route.php');
-
-            switch ($view)
-            {
-                case 'article':
-                    $original_link = '';
-                    $db = JFactory::getDbo();
-                    $query = $db->getQuery(true);
-                    $query->select('`id`, `alias`, `catid`, `language`')
-                        ->from('#__content')
-                        ->where('`id` = '.(int)$allGet['id']);
-                    $item = $db->setQuery($query,0,1)->loadObject();
-
-                    if(is_null($item))
-                    {
-                        return true;
-                    }
-
-                    $item->slug	= $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-                    $original_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
-
-                    if (!$original_link)
-                    {
-                        return true;
-                    }
-
-                    if (strpos($original_link, 'component/content/article') !== false && !empty($homealias))
-                    {
-                        $original_link = str_replace('component/content/article', $homealias, $original_link);
-                    }
-
-                    $symb = "?";
-
-                    if ($app->input->getInt('start') > 0)
-                    {
-                        $original_link .= $symb . "start=" . $app->input->getInt('start');
-                        $symb = "&";
-                    }
-                    if ($app->input->getInt('showall') > 0) $original_link .= $symb . "showall=" . $app->input->getInt('showall');
-                    break;
-
-                case 'frontpage':
-                    $original_link = JURI::base(true) . '/';
-                    if ($app->input->getInt('start') > 0) $original_link .= "index.php?start=" . $app->input->getInt('start');
-                    break;
-
-                case 'category':
-                    $original_link = JRoute::_(ContentHelperRoute::getCategoryRoute($allGet['id']));
-
-                    $start = $app->input->getInt('start', 0);
-                    if ($start > 0)
-                    {
-                        $limits = $this->params->get('limits',5);
-                        if($start % $limits != 0)
-                        {
-                            $start = intval($start / $limits) * $limits;
-                        }
-                        $original_link .= "?start=" . $start;
-                    }
-                    break;
-            }
-
-            if (($original_link != $currentLink) && $original_link)
-            {
-                $this->shRedirect($original_link);
+                JLNodoublesHelper::getInstance($this->params)->shRedirect($redirectLink);
             }
         }
 
@@ -234,13 +165,6 @@ class plgSystemJlnodoubles extends JPlugin
         JResponse::setBody($buffer);
         return true;
     }
-
-//    public function onContentPrepare($context, &$article, &$params, $page = 0)
-//    {
-//        if (self::$noRedirect) return;
-//
-//
-//    }
 
     public function onAfterInitialise()
     {
@@ -272,17 +196,6 @@ class plgSystemJlnodoubles extends JPlugin
         //Set query again in the URI
         $uri->setQuery($query);
         $uri->setPath($route);
-    }
-
-    private function shRedirect($link)
-    {
-        if ($this->params->get('301redirect', 1)) {
-            header('HTTP/1.1 301 Moved Permanently');
-            header('Location: ' . $link);
-        } else {
-            JError::raiseError(404, JText::_('PLG_JLNODUBLES_NOPAGE'));
-            return false;
-        }
     }
 
     private function allow($key)

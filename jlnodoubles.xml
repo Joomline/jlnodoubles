@@ -71,8 +71,8 @@
                 <field
                         name="stop_words"
                         type="textarea"
-                        rows="100"
-                        cols="10"
+                        rows="10"
+                        cols="100"
                         default=""
                         label="PLG_JLNODUBLES_STOP_WORDS"
                         description="PLG_JLNODUBLES_STOP_WORDS_DESC"
