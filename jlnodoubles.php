@@ -9,13 +9,11 @@
  */
 defined('_JEXEC') or die;
 
-
 jimport('joomla.plugin.plugin');
 jimport('joomla.error.error');
 
 class plgSystemJlnodoubles extends JPlugin
 {
-
     public static $noRedirect = null;
     public static $isPro = null;
 
@@ -26,19 +24,22 @@ class plgSystemJlnodoubles extends JPlugin
         {
             self::$isPro = ($this->allow($this->params->get('key'))) ? true : false;
         }
+
+        self::$noRedirect = $this->stopWords();
     }
 
-    function onAfterRoute()
+    public function onAfterRoute()
     {
         $app = JFactory::getApplication();
-        if ($app->getName() != 'site') {
+        if ($app->getName() != 'site' || self::$noRedirect)
+        {
             return true;
         }
 
-        $option = $app->input->get('option', '', 'get');
-        $Itemid = $app->input->get('Itemid', 0, 'get', 'int');
-        $view = $app->input->get('view', 0, 'get');
-        $id = $app->input->get('id', 0, 'get', 'int');
+        $option =   $app->input->get('option', '', 'get');
+        $Itemid =   $app->input->get('Itemid', 0, 'get', 'int');
+        $view =     $app->input->get('view', 0, 'get');
+        $id =       $app->input->get('id', 0, 'get', 'int');
 
         $allGet = array(
             'Itemid' => $Itemid,
@@ -76,20 +77,15 @@ class plgSystemJlnodoubles extends JPlugin
 
         $componentsvars = $this->params->get('componentsvars', $defValue);
 
-        if (is_object($componentsvars)) {
-            $componentsvars_array = array();
-            foreach ($componentsvars as $k => $val) {
-
-                if (is_object($val)) {
-                    $val_arr = array();
-                    foreach ($val as $kk => $vv) {
-                        $val_arr[$kk] = $vv;
-                    }
-                    $val = $val_arr;
-                }
-                $componentsvars_array[$k] = $val;
+        if (is_object($componentsvars))
+        {
+            $tmp = array();
+            foreach ($componentsvars as $k => $val)
+            {
+                $tmp[$k] = (array)$val;
             }
-            $componentsvars = $componentsvars_array;
+            $componentsvars = $tmp;
+            unset($tmp);
         }
 
         if (!isset($componentsvars[$option]["checkbox"]))
@@ -150,28 +146,83 @@ class plgSystemJlnodoubles extends JPlugin
         }
         else if ($option == "com_content")
         {
-            if ($view == 'category') {
-                include_once(JPATH_SITE . '/components/com_content/helpers/route.php');
+            $original_link = '';
+            $homealias = $this->params->get('homealias', 'home');
+            $currentLink = $u->toString(array('path', 'query'));
+            include_once(JPATH_SITE . '/components/com_content/helpers/route.php');
 
-                $catlink = JRoute::_(ContentHelperRoute::getCategoryRoute($allGet['id']));
+            switch ($view)
+            {
+                case 'article':
+                    $original_link = '';
+                    $db = JFactory::getDbo();
+                    $query = $db->getQuery(true);
+                    $query->select('`id`, `alias`, `catid`, `language`')
+                        ->from('#__content')
+                        ->where('`id` = '.(int)$allGet['id']);
+                    $item = $db->setQuery($query,0,1)->loadObject();
 
-                if (JRequest::getInt('start') > 0) {
-                    $catlink .= "?start=" . JRequest::getVar('start');
-                    $currentLink .= "?start=" . JRequest::getVar('start');
-                }
-                if ($catlink != $currentLink) {
-                    $this->shRedirect($catlink);
-                }
+                    if(is_null($item))
+                    {
+                        return true;
+                    }
+
+                    $item->slug	= $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+                    $original_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+
+                    if (!$original_link)
+                    {
+                        return true;
+                    }
+
+                    if (strpos($original_link, 'component/content/article') !== false && !empty($homealias))
+                    {
+                        $original_link = str_replace('component/content/article', $homealias, $original_link);
+                    }
+
+                    $symb = "?";
+
+                    if ($app->input->getInt('start') > 0)
+                    {
+                        $original_link .= $symb . "start=" . $app->input->getInt('start');
+                        $symb = "&";
+                    }
+                    if ($app->input->getInt('showall') > 0) $original_link .= $symb . "showall=" . $app->input->getInt('showall');
+                    break;
+
+                case 'frontpage':
+                    $original_link = JURI::base(true) . '/';
+                    if ($app->input->getInt('start') > 0) $original_link .= "index.php?start=" . $app->input->getInt('start');
+                    break;
+
+                case 'category':
+                    $original_link = JRoute::_(ContentHelperRoute::getCategoryRoute($allGet['id']));
+
+                    $start = $app->input->getInt('start', 0);
+                    if ($start > 0)
+                    {
+                        $limits = $this->params->get('limits',5);
+                        if($start % $limits != 0)
+                        {
+                            $start = intval($start / $limits) * $limits;
+                        }
+                        $original_link .= "?start=" . $start;
+                    }
+                    break;
+            }
+
+            if (($original_link != $currentLink) && $original_link)
+            {
+                $this->shRedirect($original_link);
             }
         }
 
         return true;
     }
 
-
-    function onAfterRender()
+    public function onAfterRender()
     {
-        if (JFactory::getApplication()->getName() != 'site')
+        if (JFactory::getApplication()->getName() != 'site' || self::$noRedirect)
         {
             return true;
         }
@@ -184,43 +235,46 @@ class plgSystemJlnodoubles extends JPlugin
         return true;
     }
 
-    public function onContentPrepare($context, &$article, &$params, $page = 0)
+//    public function onContentPrepare($context, &$article, &$params, $page = 0)
+//    {
+//        if (self::$noRedirect) return;
+//
+//
+//    }
+
+    public function onAfterInitialise()
     {
-        $real_link = JRequest::getURI();
-        $original_link = '';
-        $option = JFactory::getApplication()->input->get('option', '', 'get');
-        $view = JFactory::getApplication()->input->get('view', 0, 'get');
-        $layout = JFactory::getApplication()->input->get('layout', 0, 'get');
-        $homealias = $this->params->get('homealias', 'home');
-        if (self::$noRedirect) return;
-        if ($option == 'com_content')
-        {
-            switch ($view) {
-                case 'article':
-                    $original_link = (isset($article->readmore_link)) ? $article->readmore_link : '';
-                    if (!$original_link) return;
-                    if (strpos($original_link, 'component/content/article') !== false) $original_link = str_replace('component/content/article', $homealias, $original_link);
-                    $symb = "?";
-
-                    if (JRequest::getInt('start') > 0) {
-                        $original_link .= $symb . "start=" . JRequest::getVar('start');
-                        $symb = "&";
-                    }
-                    if (JRequest::getInt('showall') > 0) $original_link .= $symb . "showall=" . JRequest::getVar('showall');
-                    break;
-                case 'frontpage':
-                    $original_link = JURI::base(true) . '/';
-                    if (JRequest::getInt('start') > 0) $original_link .= "index.php?start=" . JRequest::getVar('start');
-                    break;
-            }
-
-            if (($original_link != $real_link) && $original_link) {
-                $this->shRedirect($original_link);
-            }
+        $application = JFactory::getApplication();
+        $router = $application->getRouter();
+        if ($router->getMode() == JROUTER_MODE_SEF) {
+            $router->attachBuildRule(array(&$this, 'build'));
+            //$router->attachParseRule(array(&$this, 'parse'));
         }
     }
 
-    public function shRedirect($link)
+    public function build(&$router, &$uri)
+    {
+        // Get the route
+        $route = $uri->getPath();
+
+        // Get the query data
+        $query = $uri->getQuery(true);
+
+        if ($query['option'] == 'com_content')
+        {
+            $toUnset = array('showall', 'start', 'limitstart');
+            foreach ($toUnset as $tu)
+            {
+                if (isset($query[$tu]) && !$query[$tu]) unset($query[$tu]);
+            }
+        } else return;
+
+        //Set query again in the URI
+        $uri->setQuery($query);
+        $uri->setPath($route);
+    }
+
+    private function shRedirect($link)
     {
         if ($this->params->get('301redirect', 1)) {
             header('HTTP/1.1 301 Moved Permanently');
@@ -228,17 +282,6 @@ class plgSystemJlnodoubles extends JPlugin
         } else {
             JError::raiseError(404, JText::_('PLG_JLNODUBLES_NOPAGE'));
             return false;
-        }
-    }
-
-
-    function onAfterInitialise()
-    {
-        $application = JFactory::getApplication();
-        $router = $application->getRouter();
-        if ($router->getMode() == JROUTER_MODE_SEF) {
-            $router->attachBuildRule(array(&$this, 'build'));
-            //$router->attachParseRule(array(&$this, 'parse'));
         }
     }
 
@@ -309,25 +352,22 @@ class plgSystemJlnodoubles extends JPlugin
         return implode('',$o);
     }
 
-    function build(&$router, &$uri)
+    private function stopWords()
     {
-        // Get the route
-        $route = $uri->getPath();
-
-        // Get the query data
-        $query = $uri->getQuery(true);
-
-        if ($query['option'] == 'com_content')
+        $stopWords = $this->params->get('stop_words','');
+        if(empty($stopWords))
         {
-            $toUnset = array('showall', 'start', 'limitstart');
-            foreach ($toUnset as $tu)
-            {
-                if (isset($query[$tu]) && !$query[$tu]) unset($query[$tu]);
+            return false;
+        }
+        $stopWords = explode("\n", $stopWords);
+        if(count($stopWords)){
+            $uri = JUri::current();
+            foreach($stopWords as $stopWord){
+                if(strpos($uri, trim($stopWord)) !== false){
+                   return true;
+                }
             }
-        } else return;
-
-        //Set query again in the URI
-        $uri->setQuery($query);
-        $uri->setPath($route);
+        }
+        return false;
     }
 }

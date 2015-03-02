@@ -39,9 +39,16 @@
                 <field
                         name="key"
                         type="text"
-                        default="home"
+                        default=""
                         label="PLG_JLNODUBLES_KEY"
                         description="PLG_JLNODUBLES_KEY_DESC"
+                        />
+                <field
+                        name="limits"
+                        type="text"
+                        default="5"
+                        label="PLG_JLNODUBLES_LIMITS"
+                        description="PLG_JLNODUBLES_LIMITS_DESC"
                         />
                 <field
                         name="301redirect"
@@ -60,6 +67,15 @@
                         default="home"
                         label="PLG_JLNODUBLES_HOMEALIAS"
                         description="PLG_JLNODUBLES_HOMEALIAS_DESC"
+                        />
+                <field
+                        name="stop_words"
+                        type="textarea"
+                        rows="100"
+                        cols="10"
+                        default=""
+                        label="PLG_JLNODUBLES_STOP_WORDS"
+                        description="PLG_JLNODUBLES_STOP_WORDS_DESC"
                         />
             </fieldset>
         </fields>
