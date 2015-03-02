@@ -1,41 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE extension>
 <extension version="2.5" type="plugin" group="system" method="upgrade">
-	<name>PLG_JLNODUBLES</name>
-	<author>JoomLine</author>
-	<creationDate>24.03.2014</creationDate>
-	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<authorEmail>sale@joomline.ru</authorEmail>
-	<authorUrl>joomline.ru</authorUrl>
-	<version>1.1</version>
-	<description>PLG_JLNODUBLES_XML_DESCRIPTION</description>
-	<files>
-		<filename plugin="jlnodoubles">jlnodoubles.php</filename>
-		<filename>index.html</filename>
-		<folder>jlnodoubles</folder>
-	</files>
-	<languages folder="language">
+    <name>PLG_JLNODUBLES</name>
+    <author>JoomLine</author>
+    <creationDate>24.03.2014</creationDate>
+    <copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorEmail>sale@joomline.ru</authorEmail>
+    <authorUrl>joomline.ru</authorUrl>
+    <version>1.1</version>
+    <description>PLG_JLNODUBLES_XML_DESCRIPTION</description>
+    <files>
+        <filename plugin="jlnodoubles">jlnodoubles.php</filename>
+        <filename>index.html</filename>
+        <folder>assets</folder>
+        <folder>elements</folder>
+    </files>
+    <languages folder="language">
         <language tag="ru-RU">ru-RU/ru-RU.plg_system_jlnodoubles.ini</language>
         <language tag="ru-RU">ru-RU/ru-RU.plg_system_jlnodoubles.sys.ini</language>
         <language tag="en-GB">en-GB/en-GB.plg_system_jlnodoubles.ini</language>
         <language tag="en-GB">en-GB/en-GB.plg_system_jlnodoubles.sys.ini</language>
     </languages>
-	<config>
-		<fields name="params">
-			<fieldset name="basic">
-					<field name="301redirect" type="list" default="1" 
-					 label="Использовать для перенаправления 301 редирект вместо вывода 404 ошибки">
-					  <option value="0">No</option>
-					  <option value="1">Yes</option>
-					</field>
-					<field name="homealias" type="text" default="home" 
-					label="Алиас, на который заменяется component/content/article" />
+    <config>
+        <fields name="params">
+            <fieldset name="components">
+                <field
+                        name="componentsvars"
+                        type="components"
+                        addfieldpath="/plugins/system/jlnodoubles/elements"
+                        default=""
+                        label="PLG_JLNODUBLES_COMPONENTS"
+                        description="PLG_JLNODUBLES_COMPONENTS_DESC"
+                        />
 
-					<field name="componentsvars" type="components" addfieldpath="/plugins/system/jlnodoubles/jlnodoubles" default="" 
-					label="Значения переменных, получаемых из адресной строки, при наличии которых редиректы невозможны (значения переменных указывать через запятую). Если поле значений переменной пустое, то перенаправление не происходит ни при каких значениях переменной. Отметьте чекбоксами те компоненты, для которых действуют редиректы" />
+            </fieldset>
+            <fieldset name="basic">
+                <field
+                        name="301redirect"
+                        type="list"
+                        default="1"
+                        label="PLG_JLNODUBLES_301"
+                        description="PLG_JLNODUBLES_301_DESC"
+                        >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
 
-			</fieldset>
-		</fields>
-	</config>	
+                <field
+                        name="homealias"
+                        type="text"
+                        default="home"
+                        label="PLG_JLNODUBLES_HOMEALIAS"
+                        description="PLG_JLNODUBLES_HOMEALIAS_DESC"
+                        />
+            </fieldset>
+        </fields>
+    </config>
 </extension>
