@@ -42,13 +42,15 @@ class plgSystemJlnodoubles extends JPlugin
         $view =     $app->input->getCmd('view', '');
         $id =       $app->input->getString('id', 0);
         $task =     $app->input->getCmd('task', '');
+        $layout =   $app->input->getCmd('layout', '');
 
         $allGet = array(
             'Itemid' => $Itemid,
             'option' => $option,
             'view' => $view,
             'id' => $id,
-            'task' => $task
+            'task' => $task,
+            'layout' => $layout
         );
 
         $u = JUri::getInstance();
