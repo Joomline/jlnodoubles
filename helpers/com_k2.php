@@ -21,7 +21,19 @@ class JLNodoubles_com_k2_helper extends JLNodoublesHelper
     {
         $uri = JUri::getInstance();
         $currentLink = $uri->toString(array('path', 'query'));
+        $start = JFactory::getApplication()->input->getInt('start', 0);
         JTable::addIncludePath(JPATH_ROOT.'/administrator/components/com_k2/tables');
+
+        $limitstring = '';
+        if ($start > 0)
+        {
+            $limits = $this->params->get('limits',5);
+            if($start % $limits != 0)
+            {
+                $start = intval($start / $limits) * $limits;
+            }
+            $limitstring .= "?start=" . $start;
+        }
 
         if($allGet['view'] == 'item' && $allGet['task'] == '')
         {
@@ -35,11 +47,11 @@ class JLNodoubles_com_k2_helper extends JLNodoublesHelper
         {
             $category = JTable::getInstance('K2Category', 'Table');
             $category->load((int)$allGet['id']);
-            $original_link = JRoute::_(K2HelperRoute::getCategoryRoute((int)$allGet['id'].':'.urlencode($category->alias)));
+            $original_link = JRoute::_(K2HelperRoute::getCategoryRoute((int)$allGet['id'].':'.urlencode($category->alias))).$limitstring;
         }
         else if($allGet['view'] == 'itemlist' && $allGet['task'] == 'user')
         {
-            $original_link = JRoute::_(K2HelperRoute::getUserRoute((int)$allGet['id']));
+            $original_link = JRoute::_(K2HelperRoute::getUserRoute((int)$allGet['id'])).$limitstring;
         }
         else
         {
