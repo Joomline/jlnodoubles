@@ -23,10 +23,10 @@ class JLNodoublesHelper{
         {
             self::$instance = new JLNodoublesHelper($params);
         }
-        return self::$_instance;
+        return self::$instance;
     }
 
-    protected function shRedirect($link)
+    public function shRedirect($link)
     {
         if ($this->params->get('301redirect', 1)) {
             header('HTTP/1.1 301 Moved Permanently');

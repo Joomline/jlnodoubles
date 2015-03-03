@@ -89,6 +89,9 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper
                     $original_link .= "?start=" . $start;
                 }
                 break;
+            default:
+                return false;
+                break;
         }
 
         if ($original_link && ($original_link != $currentLink))

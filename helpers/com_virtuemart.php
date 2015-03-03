@@ -30,9 +30,6 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
 
         switch ($allGet['view'])
         {
-            case 'virtuemart':
-
-                break;
             case 'category':
                 $limitString = '';
                 if($limitstart > 0 || $limit > 0)
@@ -60,6 +57,9 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                 }
                 $original_link = JRoute::_('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id='
                     . $category_id . '&virtuemart_product_id='.$product_id.$Itemid);
+                break;
+            default:
+                return false;
                 break;
         }
 

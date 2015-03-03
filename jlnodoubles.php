@@ -37,16 +37,18 @@ class plgSystemJlnodoubles extends JPlugin
             return true;
         }
 
-        $option =   $app->input->get('option', '', 'get');
-        $Itemid =   $app->input->get('Itemid', 0, 'get', 'int');
-        $view =     $app->input->get('view', 0, 'get');
-        $id =       $app->input->get('id', 0, 'get', 'int');
+        $option =   $app->input->getCmd('option', '');
+        $Itemid =   $app->input->getInt('Itemid', 0);
+        $view =     $app->input->getCmd('view', '');
+        $id =       $app->input->getString('id', 0);
+        $task =     $app->input->getCmd('task', '');
 
         $allGet = array(
             'Itemid' => $Itemid,
             'option' => $option,
             'view' => $view,
-            'id' => $id
+            'id' => $id,
+            'task' => $task
         );
 
         $u = JUri::getInstance();
@@ -110,6 +112,7 @@ class plgSystemJlnodoubles extends JPlugin
         }
 
         $helperPath = JPATH_ROOT.'/plugins/system/jlnodoubles/helpers/'.$option.'.php';
+        $return = true;
 
         if(is_file($helperPath) && ($option == 'com_content' || self::$isPro))
         {
@@ -121,11 +124,12 @@ class plgSystemJlnodoubles extends JPlugin
                 $helper = new $class($this->params);
                 if(method_exists($helper, 'go'))
                 {
-                    return $helper->go($allGet);
+                    $return = $helper->go($allGet);
                 }
             }
         }
-        else if ($option)
+
+        if ($option && $return == false)
         {
             $allGetArr = array();
             foreach ($allGet as $ag_name => $ag_value) {
