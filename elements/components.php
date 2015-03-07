@@ -11,10 +11,13 @@ defined('_JEXEC') or die('Restricted access');
  */
 
 jimport('joomla.form.formfield');
-
+jimport('joomla.filesystem.folder');
+require_once JPATH_ROOT . '/plugins/system/jlnodoubles/helpers/helper.php';
 
 class JFormFieldComponents extends JFormField
 {
+    private $components;
+
     protected function getInput()
     {
         $db = JFactory::getDBO();
@@ -49,16 +52,23 @@ class JFormFieldComponents extends JFormField
             );
         }
 
+        $this->components = JFolder::files(JPATH_ROOT.'/plugins/system/jlnodoubles/helpers');
+
+        $plugin = JPluginHelper::getPlugin('system', 'jlnodoubles');
+        $pluginParams = new JRegistry($plugin->params);
+        $allow = (JLNodoublesHelper::allow($pluginParams->get('key', ''))) ? true : false;
+
         $all = JText::_('PLG_JLNODUBLES_ALL_COMPONENTS');
         array_unshift($components, $all);
         ?>
         <div id="sh_component_wrapper">
-            <?php foreach ($components as $component) {
+            <?php var_dump($allow); foreach ($components as $component) {
                 if (in_array($component, $folders) || $component == $all) {
                     $componentName = $component;
                     if ($component == $all) $component = 0;
                     $checked = (isset($this->value[$component]["checkbox"])) ? ' checked="checked" ' : '';
                     $unchecked_class = ($checked || !$component) ? '' : ' unchecked ';
+                    $disabled = (!$allow && $componentName != 'com_content' && in_array($componentName.'.php', $this->components)) ? ' disabled="disabled"' : '';
                     ?>
                     <div class="sh_component_inner <?php echo $unchecked_class ?>"
                          id="sh_component_<?php echo $component ?>">
@@ -67,7 +77,9 @@ class JFormFieldComponents extends JFormField
                                 <input type="checkbox"
                                        onclick="shnodoubles.com_checkbox(this, '<?php echo $component ?>')"
                                        class="shnodoubles_com_checkbox"
-                                       name="<?php echo $this->name . '[' . $component . '][checkbox]'; ?>" <?php echo $checked ?>/>
+                                       name="<?php echo $this->name . '[' . $component . '][checkbox]'; ?>" <?php echo $checked ?>
+                                        <?php echo $disabled; ?>
+                                    />
                             <?php endif; ?>
                             <?php echo $componentName; ?>
                             <input type="button" value="<?php echo JText::_('PLG_JLNODUBLES_ADD_VAR'); ?>"
