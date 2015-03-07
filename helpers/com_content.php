@@ -40,7 +40,7 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper
                 }
 
                 $item->slug	= $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-                $original_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+                $original_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language), false);
 
                 if (!$original_link)
                 {
@@ -76,7 +76,7 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper
                 break;
 
             case 'category':
-                $original_link = JRoute::_(ContentHelperRoute::getCategoryRoute($allGet['id']));
+                $original_link = JRoute::_(ContentHelperRoute::getCategoryRoute($allGet['id']), false);
 
                 $start = $app->input->getInt('start', 0);
                 if ($start > 0)
