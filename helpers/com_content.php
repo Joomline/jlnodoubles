@@ -72,7 +72,8 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper
 
                 if ($app->input->getInt('start') > 0)
                 {
-                    $original_link .= "index.php?start=" . $app->input->getInt('start');
+                    $index = (JFactory::getConfig()->get('sef_rewrite',0) == 0) ? 'index.php' : '';
+                    $original_link .= $index.'?start=' . $app->input->getInt('start');
                 }
                 break;
 
