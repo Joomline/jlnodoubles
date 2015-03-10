@@ -41,17 +41,17 @@ class JLNodoubles_com_k2_helper extends JLNodoublesHelper
             $item->load($allGet['id']);
             $category = JTable::getInstance('K2Category', 'Table');
             $category->load($item->catid);
-            $original_link = JRoute::_(K2HelperRoute::getItemRoute($item->id.':'.urlencode($item->alias), $item->catid.':'.urlencode($category->alias)));
+            $original_link = JRoute::_(K2HelperRoute::getItemRoute($item->id.':'.urlencode($item->alias), $item->catid.':'.urlencode($category->alias)), false);
         }
         else if($allGet['view'] == 'itemlist' && $allGet['task'] == 'category')
         {
             $category = JTable::getInstance('K2Category', 'Table');
             $category->load((int)$allGet['id']);
-            $original_link = JRoute::_(K2HelperRoute::getCategoryRoute((int)$allGet['id'].':'.urlencode($category->alias))).$limitstring;
+            $original_link = JRoute::_(K2HelperRoute::getCategoryRoute((int)$allGet['id'].':'.urlencode($category->alias)), false).$limitstring;
         }
         else if($allGet['view'] == 'itemlist' && $allGet['task'] == 'user')
         {
-            $original_link = JRoute::_(K2HelperRoute::getUserRoute((int)$allGet['id'])).$limitstring;
+            $original_link = JRoute::_(K2HelperRoute::getUserRoute((int)$allGet['id']), false).$limitstring;
         }
         else
         {

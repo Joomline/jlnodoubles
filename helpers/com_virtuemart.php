@@ -32,23 +32,36 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
         {
             case 'category':
                 $limitString = '';
-                if($limitstart > 0 || $limit > 0)
-                {
-                    $limitString .= '&limitstart='.$limitstart;
-                }
+
                 if($limit > 0)
                 {
                     $limitString .= '&limit='.$limit;
                 }
+                if($limitstart > 0 || $limit > 0)
+                {
+                    $limitString .= '&limitstart='.$limitstart;
+                }
+
                 if($category_id > 0)
                 {
                     $original_link = JRoute::_ ( 'index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category_id.$limitString);
                 }
                 else if($manufacturer_id > 0)
                 {
-                    $original_link = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_manufacturer_id='.$manufacturer_id.$limitString);
+                    $original_link = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_manufacturer_id='.$manufacturer_id.$limitString, false);
+                }
+                else
+                {
+                    $menus = $app->getMenu();
+                    $menu = $menus->getActive();
+
+                    if($menu->query['option'] == 'com_virtuemart' && $menu->query['view'] == 'category')
+                    {
+                        $original_link = JRoute::_('index.php?option=com_virtuemart&view=category'.$limitString.'&Itemid='.$menu->id, false);
+                    }
                 }
                 break;
+
             case 'productdetails':
                 $Itemid = $app->input->getInt('Itemid','');
                 if(!empty($Itemid))
@@ -56,7 +69,7 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                     $Itemid = '&Itemid='.$Itemid;
                 }
                 $original_link = JRoute::_('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id='
-                    . $category_id . '&virtuemart_product_id='.$product_id.$Itemid);
+                    . $category_id . '&virtuemart_product_id='.$product_id.$Itemid, false);
                 break;
             default:
                 return false;
