@@ -67,6 +67,7 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper
                 break;
 
             case 'frontpage':
+            case 'featured':
                 $original_link = JURI::base(true) . '/';
 
                 if ($app->input->getInt('start') > 0)
