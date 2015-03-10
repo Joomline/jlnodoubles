@@ -3,12 +3,12 @@
 <extension version="2.5" type="plugin" group="system" method="upgrade">
     <name>PLG_JLNODUBLES</name>
     <author>JoomLine</author>
-    <creationDate>24.03.2014</creationDate>
+    <creationDate>10.03.2015</creationDate>
     <copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>sale@joomline.ru</authorEmail>
     <authorUrl>joomline.ru</authorUrl>
-    <version>1.1</version>
+    <version>2.0</version>
     <description>PLG_JLNODUBLES_XML_DESCRIPTION</description>
     <files>
         <filename plugin="jlnodoubles">jlnodoubles.php</filename>
