@@ -217,11 +217,14 @@ class plgSystemJlnodoubles extends JPlugin
         if(count($stopWords)){
             $u = JUri::getInstance();
             $uri = $u->toString(array('path', 'query'));
-            foreach($stopWords as $stopWord){
-				if(empty(trim($stopWord))){
+            foreach($stopWords as $stopWord)
+            {
+                $stopWord = trim($stopWord);
+                if(empty($stopWord))
+                {
                     continue;
                 }
-                if(strpos($uri, trim($stopWord)) !== false){
+                if(strpos($uri, $stopWord) !== false){
                    return true;
                 }
             }
