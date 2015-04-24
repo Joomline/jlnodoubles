@@ -101,6 +101,9 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper
                     $original_link .= "?start=" . $start;
                 }
                 break;
+            case 'form':
+                return true;
+                break;
             default:
                 return false;
                 break;
