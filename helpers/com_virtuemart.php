@@ -27,6 +27,7 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
         $manufacturer_id = $app->input->getInt('virtuemart_manufacturer_id', 0);
         $limitstart = $app->input->getInt('limitstart', 0);
         $limit = $app->input->getInt('limit', 0);
+        $orderby = $app->input->getString('orderby', '');
 
         switch ($allGet['view'])
         {
@@ -42,13 +43,22 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                     $limitString .= '&limitstart='.$limitstart;
                 }
 
-                if($category_id > 0)
+                if(!empty($orderby))
+				{
+					$orderbyString = '&orderby='.$orderby;
+				}
+			
+				if($category_id > 0 && $manufacturer_id > 0)
+				{
+					$original_link = JRoute::_ ( 'index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category_id.'&virtuemart_manufacturer_id='.$manufacturer_id.$orderbyString.$limitString);
+				}
+                else if($category_id > 0)
                 {
-                    $original_link = JRoute::_ ( 'index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category_id.$limitString);
+                    $original_link = JRoute::_ ( 'index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category_id.$orderbyString.$limitString);
                 }
                 else if($manufacturer_id > 0)
                 {
-                    $original_link = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_manufacturer_id='.$manufacturer_id.$limitString, false);
+                    $original_link = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_manufacturer_id='.$manufacturer_id.$orderbyString.$limitString, false);
                 }
                 else
                 {
@@ -57,7 +67,7 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
 
                     if($menu->query['option'] == 'com_virtuemart' && $menu->query['view'] == 'category')
                     {
-                        $original_link = JRoute::_('index.php?option=com_virtuemart&view=category'.$limitString.'&Itemid='.$menu->id, false);
+                        $original_link = JRoute::_('index.php?option=com_virtuemart&view=category'.$orderbyString.$limitString.'&Itemid='.$menu->id, false);
                     }
                 }
                 break;
