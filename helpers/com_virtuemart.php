@@ -28,10 +28,19 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
         $limitstart = $app->input->getInt('limitstart', 0);
         $limit = $app->input->getInt('limit', 0);
         $orderby = $app->input->getString('orderby', '');
+		$view = $allGet['view'];
 
-        switch ($allGet['view'])
+        switch ($view)
         {
             case 'category':
+			case 'manufacturer':
+
+				$Itemid = $app->input->getInt('Itemid','');
+                if(!empty($Itemid))
+                {
+                    $Itemid = '&Itemid='.$Itemid;
+                }
+
                 $limitString = '';
 
                 if($limit > 0)
@@ -50,24 +59,24 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
 			
 				if($category_id > 0 && $manufacturer_id > 0)
 				{
-					$original_link = JRoute::_ ( 'index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category_id.'&virtuemart_manufacturer_id='.$manufacturer_id.$orderbyString.$limitString);
+					$original_link = JRoute::_ ( 'index.php?option=com_virtuemart&view='.$view.'&virtuemart_category_id=' . $category_id.'&virtuemart_manufacturer_id='.$manufacturer_id.$orderbyString.$limitString.$Itemid);
 				}
                 else if($category_id > 0)
                 {
-                    $original_link = JRoute::_ ( 'index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $category_id.$orderbyString.$limitString);
+                    $original_link = JRoute::_ ( 'index.php?option=com_virtuemart&view='.$view.'&virtuemart_category_id=' . $category_id.$orderbyString.$limitString.$Itemid);
                 }
                 else if($manufacturer_id > 0)
                 {
-                    $original_link = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_manufacturer_id='.$manufacturer_id.$orderbyString.$limitString, false);
+                    $original_link = JRoute::_('index.php?option=com_virtuemart&view='.$view.'&virtuemart_manufacturer_id='.$manufacturer_id.$orderbyString.$limitString.$Itemid, false);
                 }
                 else
                 {
                     $menus = $app->getMenu();
                     $menu = $menus->getActive();
 
-                    if($menu->query['option'] == 'com_virtuemart' && $menu->query['view'] == 'category')
+                    if($menu->query['option'] == 'com_virtuemart' && $menu->query['view'] == $view)
                     {
-                        $original_link = JRoute::_('index.php?option=com_virtuemart&view=category'.$orderbyString.$limitString.'&Itemid='.$menu->id, false);
+                        $original_link = JRoute::_('index.php?option=com_virtuemart&view='.$view.$orderbyString.$limitString.'&Itemid='.$menu->id, false);
                     }
                 }
                 break;
@@ -81,6 +90,7 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                 $original_link = JRoute::_('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id='
                     . $category_id . '&virtuemart_product_id='.$product_id.$Itemid, false);
                 break;
+
             default:
                 return false;
                 break;
