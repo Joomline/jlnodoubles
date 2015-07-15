@@ -85,12 +85,23 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
 
             case 'productdetails':
                 $Itemid = $app->input->getInt('Itemid','');
+
+                $ItemidString = '';
                 if(!empty($Itemid))
                 {
-                    $Itemid = '&Itemid='.$Itemid;
+                    $ItemidString = '&Itemid='.$Itemid;
                 }
-                $original_link = JRoute::_('index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id='
-                    . $category_id . '&virtuemart_product_id='.$product_id.$Itemid, false);
+
+                $categoryString = '';
+                if($category_id)
+                {
+                    $categoryString = '&virtuemart_category_id=' . $category_id;
+                }
+
+                $link = 'index.php?option=com_virtuemart&view=productdetails'
+                    . $categoryString . '&virtuemart_product_id='.$product_id.$ItemidString;
+
+                $original_link = JRoute::_($link, false);
                 break;
 
             default:
