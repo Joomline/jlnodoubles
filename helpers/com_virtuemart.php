@@ -104,8 +104,14 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                 $original_link = JRoute::_($link, false);
                 break;
 
+            case 'categories':
+                //$link = 'index.php?option=com_virtuemart&view=categories&virtuemart_category_id=' . $category_id;
+                //$original_link = JRoute::_($link, false);
+                return true;
+                break;
+
             default:
-                return false;
+                return true;
                 break;
         }
 
