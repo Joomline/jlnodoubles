@@ -36,7 +36,12 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
         {
             case 'category':
 			case 'manufacturer':
-
+			
+				if($app->input->getString('search','') == 'true')
+				{
+					return true;
+				}
+				
 				$Itemid = $app->input->getInt('Itemid','');
                 if(!empty($Itemid))
                 {
