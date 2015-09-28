@@ -30,6 +30,7 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
         $limitstart = $app->input->getInt('limitstart', 0);
         $limit = $app->input->getInt('limit', 0);
         $orderby = $app->input->getString('orderby', '');
+		$keyword = $app->input->getString('keyword', '');
 		$view = $allGet['view'];
 
         switch ($view)
@@ -76,6 +77,15 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                 {
                     $original_link = JRoute::_('index.php?option=com_virtuemart&view='.$view.'&virtuemart_manufacturer_id='.$manufacturer_id.$orderbyString.$limitString.$Itemid, false);
                 }
+				else if(!empty($keyword))
+				{
+					//$categoryString = $category_id > 0 ? '&virtuemart_category_id=' . $category_id : '';
+					//$link = 'index.php?option=com_virtuemart&view='.$view.$categoryString.$keywordString.$orderbyString.$limitString.$Itemid;
+                    //$original_link = JRoute::_ ( $link ); 
+					//index.php?keyword=sdfsdf&limitstart=0&option=com_virtuemart&view=category&Itemid=159 правильно
+					//var_dump($link, $original_link); die;
+					return true;
+				}
                 else
                 {
                     $menus = $app->getMenu();
@@ -85,6 +95,9 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                     {
                         $original_link = JRoute::_('index.php?option=com_virtuemart&view='.$view.$orderbyString.$limitString.'&Itemid='.$menu->id, false);
                     }
+					else{
+						return true;
+					}
                 }
                 break;
 
