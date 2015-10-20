@@ -102,6 +102,12 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                 break;
 
             case 'productdetails':
+			
+				if($task == 'askquestion')
+				{
+					return true;
+				}
+				
                 $Itemid = $app->input->getInt('Itemid','');
 
                 $ItemidString = '';
