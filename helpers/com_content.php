@@ -70,23 +70,12 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper
 
             case 'frontpage':
             case 'featured':
-                $original_link = JURI::base(true) . '/';
-
-                if($allGet['lang'] != '')
-                {
-                    $lang = JFactory::getLanguage()->getTag();
-                    $languages	= JLanguageHelper::getLanguages('lang_code');
-                    if(isset($languages[$lang]) && !empty($languages[$lang]->sef))
-                    {
-                        $original_link .= $languages[$lang]->sef .'/';
-                    }
-                }
-
+                $link = 'index.php?option=com_content&view=' . $allGet['view'];
                 if ($app->input->getInt('start') > 0)
                 {
-                    $index = (JFactory::getConfig()->get('sef_rewrite',0) == 0) ? 'index.php' : '';
-                    $original_link .= $index.'?start=' . $app->input->getInt('start');
+                    $link .= '&start=' . $app->input->getInt('start');
                 }
+                $original_link = JRoute::_($link);
                 break;
 
             case 'category':
