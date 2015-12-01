@@ -62,7 +62,7 @@ class JFormFieldComponents extends JFormField
         array_unshift($components, $all);
         ?>
         <div id="sh_component_wrapper">
-            <?php var_dump($allow); foreach ($components as $component) {
+            <?php foreach ($components as $component) {
                 if (in_array($component, $folders) || $component == $all) {
                     $componentName = $component;
                     if ($component == $all) $component = 0;
