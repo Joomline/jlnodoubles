@@ -44,6 +44,7 @@ class plgSystemJlnodoubles extends JPlugin
         $task =     $app->input->getCmd('task', '');
         $layout =   $app->input->getCmd('layout', '');
         $lang =     $app->input->getCmd('lang', '');
+        $tmpl =     $app->input->getCmd('tmpl', '');
 
         $allGet = array(
             'Itemid' => $Itemid,
@@ -52,7 +53,8 @@ class plgSystemJlnodoubles extends JPlugin
             'id' => $id,
             'task' => $task,
             'layout' => $layout,
-            'lang' => $lang
+            'lang' => $lang,
+            'tmpl' => $tmpl
         );
 
         $u = JUri::getInstance();
