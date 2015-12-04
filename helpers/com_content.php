@@ -8,7 +8,7 @@
  *
  */
 defined('_JEXEC') or die;
-
+use Joomla\Registry\Registry;
 require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
 
 class JLNodoubles_com_content_helper extends JLNodoublesHelper
@@ -84,10 +84,30 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper
                 $start = $app->input->getInt('start', 0);
                 if ($start > 0)
                 {
-                    $limits = $this->params->get('limits',5);
-                    if($start % $limits != 0)
+                    $params = $app->getParams();
+                    $menuParams = new Registry;
+
+                    if ($menu = $app->getMenu()->getActive())
                     {
-                        $start = intval($start / $limits) * $limits;
+                        $menuParams->loadString($menu->params);
+                    }
+
+                    $mergedParams = clone $menuParams;
+                    $mergedParams->merge($params);
+                    $itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+
+                    if (($app->input->get('layout') == 'blog') || $params->get('layout_type') == 'blog')
+                    {
+                        $limit = $params->get('num_leading_articles') + $params->get('num_intro_articles');
+                    }
+                    else
+                    {
+                        $limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
+                    }
+
+                    if($start % $limit != 0)
+                    {
+                        $start = intval($start / $limit) * $limit;
                     }
                     $original_link .= "?start=" . $start;
                 }
