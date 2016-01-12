@@ -12,6 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.form.formfield');
 jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.file');
 require_once JPATH_ROOT . '/plugins/system/jlnodoubles/helpers/helper.php';
 
 class JFormFieldComponents extends JFormField

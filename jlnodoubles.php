@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 jimport('joomla.error.error');
+jimport('joomla.filesystem.file');
+
 require_once JPATH_ROOT . '/plugins/system/jlnodoubles/helpers/helper.php';
 
 class plgSystemJlnodoubles extends JPlugin
@@ -59,8 +61,6 @@ class plgSystemJlnodoubles extends JPlugin
 
         $u = JUri::getInstance();
         $currentLink = $u->toString(array('path'));
-        $uir = $_SERVER['REQUEST_URI'];
-
 
         $defValue = array(
             array(
@@ -83,7 +83,9 @@ class plgSystemJlnodoubles extends JPlugin
             unset($tmp);
         }
 
-        if (!isset($componentsvars[$option]["checkbox"]))
+        $helpers = JFolder::files(JPATH_ROOT.'/plugins/system/jlnodoubles/helpers');
+
+        if (!isset($componentsvars[$option]["checkbox"]) && !in_array($option.'.php', $helpers))
         {
             self::$noRedirect = true;
             return true;
