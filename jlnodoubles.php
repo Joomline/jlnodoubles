@@ -85,7 +85,7 @@ class plgSystemJlnodoubles extends JPlugin
 
         $helpers = JFolder::files(JPATH_ROOT.'/plugins/system/jlnodoubles/helpers');
 
-        if (!isset($componentsvars[$option]["checkbox"]) && !in_array($option.'.php', $helpers))
+        if (!isset($componentsvars[$option]["checkbox"]))
         {
             self::$noRedirect = true;
             return true;

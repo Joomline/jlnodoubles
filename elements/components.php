@@ -69,7 +69,8 @@ class JFormFieldComponents extends JFormField
                     if ($component == $all) $component = 0;
                     $checked = (isset($this->value[$component]["checkbox"])) ? ' checked="checked" ' : '';
                     $unchecked_class = ($checked || !$component) ? '' : ' unchecked ';
-                    $disabled = (!$allow && $componentName != 'com_content' && in_array($componentName.'.php', $this->components)) ? ' disabled="disabled"' : '';
+                    $disabled = (!$allow && $componentName != 'com_content' && $componentName != 'com_tags'
+                        && in_array($componentName.'.php', $this->components)) ? ' disabled="disabled"' : '';
                     ?>
                     <div class="sh_component_inner <?php echo $unchecked_class ?>"
                          id="sh_component_<?php echo $component ?>">
