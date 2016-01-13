@@ -2,7 +2,7 @@
 /**
  * @package plg_jlnodubles
  * @author Arkadiy (a.sedelnikov@gmail.com), Vadim Kunicin (vadim@joomline.ru), Sher ZA (irina@hekima.ru).
- * @version 1.1
+ * @version 2.3
  * @copyright (C) 2014 by JoomLine (http://www.joomline.net)
  * @license GNU/GPL: http://www.gnu.org/copyleft/gpl.html
  *
