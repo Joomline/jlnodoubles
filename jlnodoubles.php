@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 jimport('joomla.error.error');
 jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
 
 require_once JPATH_ROOT . '/plugins/system/jlnodoubles/helpers/helper.php';
 
