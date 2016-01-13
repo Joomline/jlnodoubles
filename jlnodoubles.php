@@ -122,7 +122,7 @@ class plgSystemJlnodoubles extends JPlugin
         $helperPath = JPATH_ROOT.'/plugins/system/jlnodoubles/helpers/'.$option.'.php';
         $return = true;
 
-        if(is_file($helperPath) && ($option == 'com_content' || self::$isPro))
+        if(is_file($helperPath) && ($option == 'com_content' || $option == 'com_tags' || self::$isPro))
         {
             require_once $helperPath;
             $class = 'JLNodoubles_' . $option . '_helper';
