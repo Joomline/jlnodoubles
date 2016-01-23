@@ -20,6 +20,7 @@ class plgSystemJlnodoubles extends JPlugin
 {
     public static $noRedirect = null;
     public static $isPro = null;
+    public static $sef;
 
     function __construct(&$subject, $config = array())
     {
@@ -30,10 +31,13 @@ class plgSystemJlnodoubles extends JPlugin
         }
 
         self::$noRedirect = $this->stopWords();
+        self::$sef = JFactory::getConfig()->get('sef', 0);
     }
 
     public function onAfterRoute()
     {
+        if(!self::$sef) return true;
+
         $app = JFactory::getApplication();
         if ($app->getName() != 'site' || self::$noRedirect)
         {
@@ -166,7 +170,7 @@ class plgSystemJlnodoubles extends JPlugin
 
     public function onAfterRender()
     {
-        if (JFactory::getApplication()->getName() != 'site' || self::$noRedirect)
+        if (JFactory::getApplication()->getName() != 'site' || self::$noRedirect || !self::$sef)
         {
             return true;
         }
@@ -181,6 +185,8 @@ class plgSystemJlnodoubles extends JPlugin
 
     public function onAfterInitialise()
     {
+        if(!self::$sef) return true;
+
         $application = JFactory::getApplication();
         $router = $application->getRouter();
         if ($router->getMode() == JROUTER_MODE_SEF) {

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_tags/helpers/route.php';
+use Joomla\Utilities\ArrayHelper;
 
 class JLNodoubles_com_tags_helper extends JLNodoublesHelper
 {
@@ -26,15 +27,37 @@ class JLNodoubles_com_tags_helper extends JLNodoublesHelper
         $uri = JUri::getInstance();
         $currentLink = $uri->toString(array('path', 'query'));
 
-        $tagId = $app->input->getString('id', '');
+
+
+        $start = $app->input->getInt('start', 0);
+
+        if($start>0)
+            $start = '&start='.$start;
 
         switch ($allGet['view'])
         {
             case 'tags':
-                $original_link = JRoute::_('index.php?option=com_tags&view=tags', false);
+                $original_link = JRoute::_('index.php?option=com_tags&view=tags'.$start, false);
                 break;
             case 'tag':
-                $original_link = JRoute::_(TagsHelperRoute::getTagRoute($tagId));
+                $tagIds = $app->input->get('id', array(), 'array');
+                ArrayHelper::toInteger($tagIds);
+
+                if(count($tagIds) == 1){
+                    $tagId = array_shift($tagIds);
+                    $original_link = JRoute::_(TagsHelperRoute::getTagRoute($tagId).$start, false);
+                }
+                else if(count($tagIds) > 1)
+                {
+                    $tagString = 'index.php?option=com_tags&view=tag';
+                    foreach ($tagIds as $key => $tagId)
+                    {
+                        $tagString .= '&id['.$key.']='.$tagId;
+                    }
+
+                    $original_link = JRoute::_($tagString.$start, false);
+                }
+
                 break;
             default:
                 return true;
