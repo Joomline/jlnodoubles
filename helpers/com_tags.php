@@ -30,9 +30,7 @@ class JLNodoubles_com_tags_helper extends JLNodoublesHelper
 
 
         $start = $app->input->getInt('start', 0);
-
-        if($start>0)
-            $start = '&start='.$start;
+        $start = ($start>0) ? '&start='.$start : '';
 
         switch ($allGet['view'])
         {

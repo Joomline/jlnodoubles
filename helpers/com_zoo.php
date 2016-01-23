@@ -23,15 +23,16 @@ class JLNodoubles_com_zoo_helper extends JLNodoublesHelper
     public function go($allGet)
     {
         $uri = JUri::getInstance();
-        $currentLink = $uri->toString(array('scheme', 'host','path', 'query'));
+        $currentLink = $uri->toString(array('path', 'query'));
 
         $app = JFactory::getApplication();
         $zoo = App::getInstance('zoo');
         $application = $zoo->zoo->getApplication();
 
-        $page = $app->input->getInt('page', 0);
         $item_id = $app->input->getInt('item_id', 0);
         $category_id = $app->input->getInt('category_id', 0);
+        $page = $app->input->getInt('page', 0);
+        $page = $page > 0 ? '&page='.$page : '';
 
         if(($allGet['view'] == 'item' && $allGet['layout'] == 'item') || $allGet['task'] == 'item')
         {
@@ -39,7 +40,6 @@ class JLNodoubles_com_zoo_helper extends JLNodoublesHelper
                 $menus = $app->getMenu();
                 $menu = $menus->getActive();
                 $item_id = $menu->params->get('item_id');
-                $application_id = $menu->params->get('application');
             }
             if($item_id == 0)
             {
@@ -47,7 +47,7 @@ class JLNodoubles_com_zoo_helper extends JLNodoublesHelper
             }
 
             $item = $zoo->table->item->get($item_id);
-            $original_link = JRoute::_($zoo->route->item($item, false), false, -1);
+            $original_link = JRoute::_($zoo->route->item($item, false), false);
         }
         else if(($allGet['view'] == 'category' && $allGet['layout'] == 'category') || $allGet['task'] == 'category')
         {
@@ -55,26 +55,35 @@ class JLNodoubles_com_zoo_helper extends JLNodoublesHelper
                 $menus = $app->getMenu();
                 $menu = $menus->getActive();
                 $category_id = $menu->params->get('category');
-                $application_id = $menu->params->get('application');
             }
+
             if($category_id == 0)
             {
                 return false;
             }
 
-            $limitstring = '';
-            if ($page > 0)
-            {
-                $limitstring .= "&page=" . $page;
-            }
-
             $categories = $application->getCategoryTree(true, $zoo->user->get(), true);
             $category   = $categories[$category_id];
-            $original_link = JRoute::_($zoo->route->category($category, false).$limitstring, false, -1);
+            $link = $zoo->route->category($category, false).$page;
+            $original_link = JRoute::_($link, false);
+        }
+        else if(($allGet['view'] == 'frontpage' && $allGet['layout'] == 'frontpage') || $allGet['task'] == 'frontpage')
+        {
+            $menus = $app->getMenu();
+            $menu = $menus->getActive();
+            $application_id = $menu->params->get('application');
+
+            if($application_id == 0)
+            {
+                return false;
+            }
+
+            $link = $zoo->route->frontpage($application_id).$page;
+            $original_link = JRoute::_($link, false);
         }
         else
         {
-            return false;
+            return true;
         }
 
         if ($original_link && ($original_link != $currentLink))
