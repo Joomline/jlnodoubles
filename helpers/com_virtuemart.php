@@ -33,6 +33,9 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
 		$keyword = $app->input->getString('keyword', '');
 		$view = $allGet['view'];
 
+        $menus = $app->getMenu();
+        $menu = $menus->getActive();
+
         switch ($view)
         {
             case 'category':
@@ -43,11 +46,8 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
 					return true;
 				}
 				
-				$Itemid = $app->input->getInt('Itemid','');
-                if(!empty($Itemid))
-                {
-                    $Itemid = '&Itemid='.$Itemid;
-                }
+				$Itemid = $app->input->getInt('Itemid',0);
+                $Itemid = $Itemid > 0 ? '&Itemid='.$Itemid : '';
 
                 $limitString = '';
 
@@ -55,19 +55,24 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                 {
                     $limitString .= '&limit='.$limit;
                 }
+
                 if($limitstart > 0 || $limit > 0)
                 {
                     $limitString .= '&limitstart='.$limitstart;
                 }
 
-                if(!empty($orderby))
+                $orderbyString = !empty($orderby) ? '&orderby='.$orderby : '';
+
+                if($menu->query['option'] == 'com_virtuemart'
+                    && $menu->query['view'] == $view
+                    && $menu->query['virtuemart_category_id'] == $category_id
+                    && $menu->query['virtuemart_manufacturer_id'] == $manufacturer_id)
+                {
+                    $original_link = '/'.$menu->route;
+                }
+				else if($category_id > 0 && $manufacturer_id > 0)
 				{
-					$orderbyString = '&orderby='.$orderby;
-				}
-			
-				if($category_id > 0 && $manufacturer_id > 0)
-				{
-					$original_link = JRoute::_ ( 'index.php?option=com_virtuemart&view='.$view.'&virtuemart_category_id=' . $category_id.'&virtuemart_manufacturer_id='.$manufacturer_id.$orderbyString.$limitString.$Itemid);
+                    $original_link = JRoute::_ ( 'index.php?option=com_virtuemart&view='.$view.'&virtuemart_category_id=' . $category_id.'&virtuemart_manufacturer_id='.$manufacturer_id.$orderbyString.$limitString.$Itemid);
 				}
                 else if($category_id > 0)
                 {
@@ -75,35 +80,25 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                 }
                 else if($manufacturer_id > 0)
                 {
-                    $original_link = JRoute::_('index.php?option=com_virtuemart&view='.$view.'&virtuemart_manufacturer_id='.$manufacturer_id.$orderbyString.$limitString.$Itemid, false);
+                    $original_link = JRoute::_('index.php?option=com_virtuemart&view=' . $view . '&virtuemart_manufacturer_id=' . $manufacturer_id . $orderbyString . $limitString . $Itemid, false);
                 }
 				else if(!empty($keyword))
 				{
-					//$categoryString = $category_id > 0 ? '&virtuemart_category_id=' . $category_id : '';
-					//$link = 'index.php?option=com_virtuemart&view='.$view.$categoryString.$keywordString.$orderbyString.$limitString.$Itemid;
-                    //$original_link = JRoute::_ ( $link ); 
-					//index.php?keyword=sdfsdf&limitstart=0&option=com_virtuemart&view=category&Itemid=159 правильно
-					//var_dump($link, $original_link); die;
 					return true;
 				}
-                else
+                else if($menu->query['option'] == 'com_virtuemart' && $menu->query['view'] == $view)
                 {
-                    $menus = $app->getMenu();
-                    $menu = $menus->getActive();
-
-                    if($menu->query['option'] == 'com_virtuemart' && $menu->query['view'] == $view)
-                    {
-                        $original_link = JRoute::_('index.php?option=com_virtuemart&view='.$view.$orderbyString.$limitString.'&Itemid='.$menu->id, false);
-                    }
-					else{
-						return true;
-					}
+                    $original_link = JRoute::_('index.php?option=com_virtuemart&view='.$view.$orderbyString.$limitString.'&Itemid='.$menu->id, false);
                 }
+                else{
+                    return true;
+                }
+
                 break;
 
             case 'productdetails':
 			
-				if($task == 'askquestion')
+				if($allGet['task'] == 'askquestion')
 				{
 					return true;
 				}
