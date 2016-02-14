@@ -29,6 +29,7 @@ class JLNodoubles_com_jshopping_helper extends JLNodoublesHelper
         $product_id = $app->input->getInt('product_id', 0);
         $category_id = $app->input->getInt('category_id', 0);
         $manufacturer_id = $app->input->getInt('manufacturer_id', 0);
+        $start = $app->input->getInt('start', 0);
         $controller = $app->input->getCmd('controller', '');
         $task = $app->input->getCmd('task', '');
 
@@ -37,12 +38,28 @@ class JLNodoubles_com_jshopping_helper extends JLNodoublesHelper
             return true;
         }
 
+
+
         $baseLink = 'index.php?option=com_jshopping&controller='.$controller.'&task=view';
 
         switch ($controller)
         {
             case 'category':
-                $original_link = SEFLink($baseLink . '&category_id='.$category_id);
+                if(is_file(JPATH_ROOT.'/components/com_jshopping/lib/factory.php'))
+                    require_once JPATH_ROOT.'/components/com_jshopping/lib/factory.php';
+
+                $context = 'jshoping.list.front.product';
+                $limit = $app->getUserStateFromRequest($context.'limit', 'limit', JSFactory::getConfig()->count_products_to_page, 'int');
+
+                if($start>0 && $start%$limit != 0)
+                {
+                    $start = ((int)($start/$limit))*$limit;
+
+                }
+
+                $start = $start > 0 ? '&start='.$start : '';
+
+                $original_link = SEFLink($baseLink . '&category_id='.$category_id.$start);
                 break;
 
             case 'product':
