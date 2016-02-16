@@ -9,7 +9,8 @@
  */
 defined('_JEXEC') or die;
 
-
+if(is_file(JPATH_ROOT.'/components/com_jshopping/lib/factory.php'))
+    require_once JPATH_ROOT.'/components/com_jshopping/lib/factory.php';
 
 class JLNodoubles_com_jshopping_helper extends JLNodoublesHelper
 {
@@ -45,20 +46,8 @@ class JLNodoubles_com_jshopping_helper extends JLNodoublesHelper
         switch ($controller)
         {
             case 'category':
-                if(is_file(JPATH_ROOT.'/components/com_jshopping/lib/factory.php'))
-                    require_once JPATH_ROOT.'/components/com_jshopping/lib/factory.php';
-
                 $context = 'jshoping.list.front.product';
-                $limit = $app->getUserStateFromRequest($context.'limit', 'limit', JSFactory::getConfig()->count_products_to_page, 'int');
-
-                if($start>0 && $start%$limit != 0)
-                {
-                    $start = ((int)($start/$limit))*$limit;
-
-                }
-
-                $start = $start > 0 ? '&start='.$start : '';
-
+                $start = $this->getStart($start, $context);
                 $original_link = SEFLink($baseLink . '&category_id='.$category_id.$start);
                 break;
 
@@ -67,7 +56,9 @@ class JLNodoubles_com_jshopping_helper extends JLNodoublesHelper
                 break;
 
             case 'manufacturer':
-                $original_link = SEFLink($baseLink . '&manufacturer_id='.$manufacturer_id, 2);
+                $context = 'jshoping.manufacturlist.front.product';
+                $start = $this->getStart($start, $context);
+                $original_link = SEFLink($baseLink . '&manufacturer_id='.$manufacturer_id.$start, 2);
                 break;
 
             default:
@@ -80,5 +71,24 @@ class JLNodoubles_com_jshopping_helper extends JLNodoublesHelper
             $this->shRedirect($original_link);
         }
         return true;
+    }
+
+    private function getStart($start, $context)
+    {
+        if($start == 0)
+        {
+            return '';
+        }
+
+        $app = JFactory::getApplication();
+        $limit = $app->getUserStateFromRequest($context.'limit', 'limit', JSFactory::getConfig()->count_products_to_page, 'int');
+
+        if($start%$limit != 0)
+        {
+            $start = ((int)($start/$limit))*$limit;
+        }
+
+        $start = $start > 0 ? '&start='.$start : '';
+        return $start;
     }
 }
