@@ -57,7 +57,7 @@ class JLNodoubles_com_k2_helper extends JLNodoublesHelper
         }
         else
         {
-            return false;
+            return true;
         }
 
         if ($original_link && ($original_link != $currentLink))
