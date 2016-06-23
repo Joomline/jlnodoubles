@@ -31,15 +31,17 @@ class JLNodoubles_com_jshopping_helper extends JLNodoublesHelper
         $category_id = $app->input->getInt('category_id', 0);
         $manufacturer_id = $app->input->getInt('manufacturer_id', 0);
         $start = $app->input->getInt('start', 0);
-        $controller = $app->input->getCmd('controller', '');
         $task = $app->input->getCmd('task', '');
+		$controller = $app->input->getCmd('controller', '');
+
+		if($controller == ''){
+			$controller = $app->input->getCmd('view', '');
+		}
 
         if($task != 'view')
         {
             return true;
         }
-
-
 
         $baseLink = 'index.php?option=com_jshopping&controller='.$controller.'&task=view';
 
