@@ -32,13 +32,11 @@ class JLNodoubles_com_jshopping_helper extends JLNodoublesHelper
         $manufacturer_id = $app->input->getInt('manufacturer_id', 0);
         $start = $app->input->getInt('start', 0);
         $task = $app->input->getCmd('task', '');
-		$controller = $app->input->getCmd('controller', '');
+	$view = $app->input->getCmd('view', '');
+	$controller = $app->input->getCmd('controller', '');
+	$controller = empty($controller) ? $view : '';
 
-		if($controller == ''){
-			$controller = $app->input->getCmd('view', '');
-		}
-
-        if($task != 'view')
+        if(!in_array($task, array('view', 'category')))
         {
             return true;
         }
