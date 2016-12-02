@@ -60,7 +60,7 @@ class JLNodoubles_com_k2_helper extends JLNodoublesHelper
             return true;
         }
 
-        if ($original_link && ($original_link != $currentLink))
+        if ($original_link && ($original_link != urldecode($currentLink)))
         {
             $this->shRedirect($original_link);
         }

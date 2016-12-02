@@ -160,7 +160,7 @@ class plgSystemJlnodoubles extends JPlugin
             }
 
             $redirectLink = JRoute::_('index.php?' . implode('&', $allGetArr));
-            if ($redirectLink != $currentLink) {
+            if ($redirectLink != urldecode($currentLink)) {
                 JLNodoublesHelper::getInstance($this->params)->shRedirect($redirectLink);
             }
         }

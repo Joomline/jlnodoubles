@@ -62,7 +62,7 @@ class JLNodoubles_com_tags_helper extends JLNodoublesHelper
                 break;
         }
 
-        if ($original_link && ($original_link != $currentLink))
+        if ($original_link && ($original_link != urldecode($currentLink)))
         {
             $this->shRedirect($original_link);
         }
