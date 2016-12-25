@@ -1,85 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE extension>
-<extension version="3.0" type="plugin" group="system" method="upgrade">
-    <name>PLG_JLNODUBLES</name>
-    <author>JoomLine</author>
-    <creationDate>01.12.2015</creationDate>
-    <copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
-    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <authorEmail>sale@joomline.ru</authorEmail>
-    <authorUrl>joomline.ru</authorUrl>
-    <version>2.3.3</version>
-    <description>PLG_JLNODUBLES_XML_DESCRIPTION</description>
-    <files>
-        <filename plugin="jlnodoubles">jlnodoubles.php</filename>
-        <filename>index.html</filename>
-        <folder>assets</folder>
-        <folder>elements</folder>
-        <folder>helpers</folder>
-    </files>
-    <languages folder="language">
-        <language tag="ru-RU">ru-RU/ru-RU.plg_system_jlnodoubles.ini</language>
-        <language tag="ru-RU">ru-RU/ru-RU.plg_system_jlnodoubles.sys.ini</language>
-        <language tag="en-GB">en-GB/en-GB.plg_system_jlnodoubles.ini</language>
-        <language tag="en-GB">en-GB/en-GB.plg_system_jlnodoubles.sys.ini</language>
-    </languages>
-    <config>
-        <fields name="params">
-            <fieldset name="components">
-                <field
-                        name="componentsvars"
-                        type="components"
-                        addfieldpath="/plugins/system/jlnodoubles/elements"
-                        default=""
-                        label="PLG_JLNODUBLES_COMPONENTS"
-                        description="PLG_JLNODUBLES_COMPONENTS_DESC"
-                        />
-
-            </fieldset>
-            <fieldset name="basic">
-                <field
-                        name="key"
-                        type="text"
-                        default=""
-                        label="PLG_JLNODUBLES_KEY"
-                        description="PLG_JLNODUBLES_KEY_DESC"
-                        />
-                <field
-                        name="limits"
-                        type="text"
-                        default="5"
-                        label="PLG_JLNODUBLES_LIMITS"
-                        description="PLG_JLNODUBLES_LIMITS_DESC"
-                        />
-                <field
-                        name="301redirect"
-                        type="list"
-                        default="1"
-                        label="PLG_JLNODUBLES_301"
-                        description="PLG_JLNODUBLES_301_DESC"
-                        >
-                    <option value="0">JNO</option>
-                    <option value="1">JYES</option>
-                </field>
-
-                <field
-                        name="homealias"
-                        type="text"
-                        default="home"
-                        label="PLG_JLNODUBLES_HOMEALIAS"
-                        description="PLG_JLNODUBLES_HOMEALIAS_DESC"
-                        />
-                <field
-                        name="stop_words"
-                        type="textarea"
-                        rows="10"
-                        cols="100"
-                        default=""
-                        label="PLG_JLNODUBLES_STOP_WORDS"
-                        description="PLG_JLNODUBLES_STOP_WORDS_DESC"
-                        />
-            </fieldset>
-        </fields>
-    </config>
-<updateservers><server type="extension" priority="1" name="Joomline">http://joomline.net/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=10&amp;dummy=extension.xml</server></updateservers>
+<extension group="system" method="upgrade" type="plugin" version="3.0">
+  <name>PLG_JLNODUBLES</name>
+  <author>JoomLine</author>
+  <creationDate>01.12.2015</creationDate>
+  <copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
+  <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+  <authorEmail>sale@joomline.ru</authorEmail>
+  <authorUrl>joomline.ru</authorUrl>
+  <version>2.3.3</version>
+  <description>PLG_JLNODUBLES_XML_DESCRIPTION</description>
+  <files>
+    <filename plugin="jlnodoubles">jlnodoubles.php</filename>
+    <filename>index.html</filename>
+    <folder>assets</folder>
+    <folder>elements</folder>
+    <folder>helpers</folder>
+  </files>
+  <languages folder="language">
+    <language tag="ru-RU">ru-RU/ru-RU.plg_system_jlnodoubles.ini</language>
+    <language tag="ru-RU">ru-RU/ru-RU.plg_system_jlnodoubles.sys.ini</language>
+    <language tag="en-GB">en-GB/en-GB.plg_system_jlnodoubles.ini</language>
+    <language tag="en-GB">en-GB/en-GB.plg_system_jlnodoubles.sys.ini</language>
+  </languages>
+  <config>
+    <fields name="params">
+      <fieldset name="components">
+        <field addfieldpath="/plugins/system/jlnodoubles/elements" default="" description="PLG_JLNODUBLES_COMPONENTS_DESC" label="PLG_JLNODUBLES_COMPONENTS" name="componentsvars" type="components"/>
+      </fieldset>
+      <fieldset name="basic">
+        <field default="" description="PLG_JLNODUBLES_KEY_DESC" label="PLG_JLNODUBLES_KEY" name="key" type="text"/>
+        <field default="5" description="PLG_JLNODUBLES_LIMITS_DESC" label="PLG_JLNODUBLES_LIMITS" name="limits" type="text"/>
+        <field default="1" description="PLG_JLNODUBLES_301_DESC" label="PLG_JLNODUBLES_301" name="301redirect" type="list">
+          <option value="0">JNO</option>
+          <option value="1">JYES</option>
+        </field>
+        <field default="home" description="PLG_JLNODUBLES_HOMEALIAS_DESC" label="PLG_JLNODUBLES_HOMEALIAS" name="homealias" type="text"/>
+        <field cols="100" default="" description="PLG_JLNODUBLES_STOP_WORDS_DESC" label="PLG_JLNODUBLES_STOP_WORDS" name="stop_words" rows="10" type="textarea"/>
+      </fieldset>
+    </fields>
+  </config>
+  <updateservers>
+    <server name="Joomline" priority="1" type="extension">http://joomline.net/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=10&amp;dummy=extension.xml</server>
+  </updateservers>
 </extension>

@@ -40,12 +40,12 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
         {
             case 'category':
 			case 'manufacturer':
-			
+
 				if($app->input->getString('search','') == 'true')
 				{
 					return true;
 				}
-				
+
 				$Itemid = $app->input->getInt('Itemid',0);
                 $Itemid = $Itemid > 0 ? '&Itemid='.$Itemid : '';
 
@@ -97,12 +97,12 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                 break;
 
             case 'productdetails':
-			
+
 				if($allGet['task'] == 'askquestion')
 				{
 					return true;
 				}
-				
+
                 $Itemid = $app->input->getInt('Itemid','');
 
                 $ItemidString = '';
