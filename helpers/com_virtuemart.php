@@ -69,6 +69,13 @@ class JLNodoubles_com_virtuemart_helper extends JLNodoublesHelper
                     && $menu->query['virtuemart_manufacturer_id'] == $manufacturer_id)
                 {
                     $original_link = '/'.$menu->route;
+                    if ($app->get('sef_suffix'))
+                    {
+                        $format = $app->input->getString('format', 'html');
+                        if(!empty($format)){
+                            $original_link .= '.' . $format;
+                        }
+                    }
                 }
 				else if($category_id > 0 && $manufacturer_id > 0)
 				{
