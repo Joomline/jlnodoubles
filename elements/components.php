@@ -126,10 +126,7 @@ class JFormFieldComponents extends JFormField
         ';
 
         $doc->addScriptDeclaration($script);
-        $doc->addScript(JUri::root() . 'plugins/system/jlnodoubles/assets/jlnodoubles.js');
-        $doc->addStyleSheet(JUri::root() . 'plugins/system/jlnodoubles/assets/jlnodoubles.css');
+        $doc->addScript(JUri::root() . 'plugins/system/jlnodoubles/assets/jlnodoubles.min.js');
+        $doc->addStyleSheet(JUri::root() . 'plugins/system/jlnodoubles/assets/jlnodoubles.min.css');
     }
 }
-
-
-
