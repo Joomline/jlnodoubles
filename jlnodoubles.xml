@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE extension>
-<extension version="3.0" type="plugin" group="system" method="upgrade">
+<extension version="3.4" type="plugin" group="system" method="upgrade">
     <name>PLG_JLNODUBLES</name>
     <author>JoomLine</author>
     <creationDate>01.12.2015</creationDate>
-    <copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
+    <copyright>Copyright (C) 2014 - 2017 Joomline. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>sale@joomline.ru</authorEmail>
     <authorUrl>joomline.ru</authorUrl>
-    <version>2.3.3</version>
+    <version>2.3.4</version>
     <description>PLG_JLNODUBLES_XML_DESCRIPTION</description>
     <files>
         <filename plugin="jlnodoubles">jlnodoubles.php</filename>
