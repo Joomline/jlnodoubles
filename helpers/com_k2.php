@@ -55,6 +55,11 @@ class JLNodoubles_com_k2_helper extends JLNodoublesHelper
         {
             $original_link = JRoute::_(K2HelperRoute::getUserRoute((int)$allGet['id']), false).$limitstring;
         }
+        else if($allGet['view'] == 'itemlist' && $allGet['task'] == 'tag')
+        {
+            $tag = JFactory::getApplication()->input->getString('tag');
+            $original_link = JRoute::_(K2HelperRoute::getTagRoute($tag), false).$limitstring;
+        }
         else
         {
             return true;
