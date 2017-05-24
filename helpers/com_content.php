@@ -120,7 +120,7 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper
                 break;
         }
 
-        if ($original_link && ($this->urlEncode($original_link) != urldecode($currentLink)))
+        if ($original_link && ($this->urlEncode($original_link) != $currentLink))
         {
             $this->shRedirect($original_link);
         }
