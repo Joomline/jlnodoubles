@@ -53,7 +53,8 @@ class JLNodoubles_com_k2_helper extends JLNodoublesHelper
         }
         else if($allGet['view'] == 'itemlist' && $allGet['task'] == 'user')
         {
-            $original_link = JRoute::_(K2HelperRoute::getUserRoute((int)$allGet['id']), false).$limitstring;
+	        JLoader::register('K2HelperUtilities', JPATH_SITE.'/components/com_k2/helpers/utilities.php');
+	        $original_link = JRoute::_(K2HelperRoute::getUserRoute((int)$allGet['id']), false).$limitstring;
         }
         else if($allGet['view'] == 'itemlist' && $allGet['task'] == 'tag')
         {
