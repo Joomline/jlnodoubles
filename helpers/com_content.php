@@ -45,11 +45,9 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper
             // $original_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language), false);
 
             $menu   = $app->getMenu();
-            $menu_items = $menu->getItems('menutype', 'mainmenu');
-            $FixItemid = (int)$menu_items[0]->id;
+            $FixItemid = $menu->getActive()->id;
 
             $original_link = JRoute::_("index.php?option=com_content&view=article&id={$item->id}:{$item->alias}&catid={$item->catid}&Itemid={$FixItemid}");
-            $original_link = str_replace('//','/',$original_link);
                 
                 if (!$original_link)
                 {
