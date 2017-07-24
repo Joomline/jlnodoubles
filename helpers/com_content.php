@@ -41,31 +41,27 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper
                     return true;
                 }
 
-
-  //              $item->slug	= $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-  //            $original_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language), false);
-
                 $menu   = $app->getMenu();
                 $FixItemid = $menu->getActive()->id;
 
                 $original_link = JRoute::_("index.php?option=com_content&view=article&id={$item->id}:{$item->alias}&catid={$item->catid}&Itemid={$FixItemid}");
 
 
-        for ($i=0; $i < 6; $i++) { 
-
-            if (NULL !== $this->params->get('itemsfix'.$i)) {
-
-            $itemsfix_array = explode(",", $this->params->get('itemsfix'.$i));
-            $itemIdfix = $this->params->get('itemId'.$i);
-
-                      if (in_array($item->id, $itemsfix_array)) { 
-
-                $original_link = JRoute::_("index.php?option=com_content&view=article&id={$item->id}:{$item->alias}&catid={$item->catid}&Itemid={$itemIdfix}");
-                 
-                }
-     
-             }
-        }
+//        for ($i=0; $i < 6; $i++) {
+//
+//            if (NULL !== $this->params->get('itemsfix'.$i)) {
+//
+//            $itemsfix_array = explode(",", $this->params->get('itemsfix'.$i));
+//            $itemIdfix = $this->params->get('itemId'.$i);
+//
+//                      if (in_array($item->id, $itemsfix_array)) {
+//
+//                $original_link = JRoute::_("index.php?option=com_content&view=article&id={$item->id}:{$item->alias}&catid={$item->catid}&Itemid={$itemIdfix}");
+//
+//                }
+//
+//             }
+//        }
                 
                 if (!$original_link)
                 {
