@@ -7,142 +7,126 @@
  * @license GNU/GPL: http://www.gnu.org/copyleft/gpl.html
  *
  */
-defined('_JEXEC') or die;
+defined( '_JEXEC' ) or die;
 use Joomla\Registry\Registry;
+
 require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
 
-class JLNodoubles_com_content_helper extends JLNodoublesHelper
-{
+class JLNodoubles_com_content_helper extends JLNodoublesHelper {
 
-    function __construct($params)
-    {
-        parent::__construct($params);
-    }
+	function __construct( $params ) {
+		parent::__construct( $params );
+	}
 
-    public function go($allGet){
-        $original_link = '';
-        $app = JFactory::getApplication();
-        $uri = JUri::getInstance();
-        $homealias = $this->params->get('homealias', 'home');
-        $currentLink = $uri->toString(array('path', 'query'));
+	public function go( $allGet ) {
+		$original_link = '';
+		$app           = JFactory::getApplication();
+		$uri           = JUri::getInstance();
+		$homealias     = $this->params->get( 'homealias', 'home' );
+		$currentLink   = $uri->toString( array( 'path', 'query' ) );
 
-        switch ($allGet['view'])
-        {
-            case 'article':
-                $db = JFactory::getDbo();
-                $query = $db->getQuery(true);
-                $query->select('`id`, `alias`, `catid`, `language`')
-                    ->from('#__content')
-                    ->where('`id` = '.(int)$allGet['id']);
-                $item = $db->setQuery($query,0,1)->loadObject();
+		switch ( $allGet['view'] ) {
+			case 'article':
+				$db    = JFactory::getDbo();
+				$query = $db->getQuery( true );
+				$query->select( '`id`, `alias`, `catid`, `language`' )
+				      ->from( '#__content' )
+				      ->where( '`id` = ' . (int) $allGet['id'] );
+				$item = $db->setQuery( $query, 0, 1 )->loadObject();
 
-                if(is_null($item))
-                {
-                    return true;
-                }
+				if ( is_null( $item ) ) {
+					return true;
+				}
 
-                $menu   = $app->getMenu();
-                $FixItemid = $menu->getActive()->id;
-
-                $original_link = JRoute::_("index.php?option=com_content&view=article&id={$item->id}:{$item->alias}&catid={$item->catid}&Itemid={$FixItemid}");
+				$menu      = $app->getMenu();
+				$FixItemid = $menu->getActive()->id;
 
 
-//        for ($i=0; $i < 6; $i++) {
-//
-//            if (NULL !== $this->params->get('itemsfix'.$i)) {
-//
-//            $itemsfix_array = explode(",", $this->params->get('itemsfix'.$i));
-//            $itemIdfix = $this->params->get('itemId'.$i);
-//
-//                      if (in_array($item->id, $itemsfix_array)) {
-//
-//                $original_link = JRoute::_("index.php?option=com_content&view=article&id={$item->id}:{$item->alias}&catid={$item->catid}&Itemid={$itemIdfix}");
-//
-//                }
-//
-//             }
-//        }
-                
-                if (!$original_link)
-                {
-                    return true;
-                }
 
-                if (strpos($original_link, 'component/content/article') !== false && !empty($homealias))
-                {
-                    $original_link = str_replace('component/content/article', $homealias, $original_link);
-                }
+				for ( $i = 0; $i < 6; $i ++ )
+				{
+					if ( !empty($this->params->get( 'itemsfix' . $i )) )
+					{
+						$itemsfix_array = explode( ",", $this->params->get( 'itemsfix' . $i ) );
+						$itemIdfix      = $this->params->get( 'itemId' . $i );
+						if ( in_array( $item->id, $itemsfix_array ) )
+						{
+							$FixItemid = $itemIdfix;
+						}
+					}
+				}
 
-                $symb = "?";
+				$original_link = JRoute::_( "index.php?option=com_content&view=article&id={$item->id}:{$item->alias}&catid={$item->catid}&Itemid={$FixItemid}" );
 
-                if ($app->input->getInt('start') > 0)
-                {
-                    $original_link .= $symb . "start=" . $app->input->getInt('start');
-                    $symb = "&";
-                }
+				if ( ! $original_link ) {
+					return true;
+				}
 
-                if ($app->input->getInt('showall') > 0)
-                {
-                    $original_link .= $symb . "showall=" . $app->input->getInt('showall');
-                }
-                break;
+				if ( strpos( $original_link, 'component/content/article' ) !== false && ! empty( $homealias ) ) {
+					$original_link = str_replace( 'component/content/article', $homealias, $original_link );
+				}
 
-            case 'frontpage':
-            case 'featured':
-                $link = 'index.php?option=com_content&view=' . $allGet['view'];
-                if ($app->input->getInt('start') > 0)
-                {
-                    $link .= '&start=' . $app->input->getInt('start');
-                }
-                $original_link = JRoute::_($link);
-                break;
+				$symb = "?";
 
-            case 'category':
-                $original_link = JRoute::_(ContentHelperRoute::getCategoryRoute($allGet['id']), false);
+				if ( $app->input->getInt( 'start' ) > 0 ) {
+					$original_link .= $symb . "start=" . $app->input->getInt( 'start' );
+					$symb          = "&";
+				}
 
-                $start = $app->input->getInt('start', 0);
-                if ($start > 0)
-                {
-                    $params = $app->getParams();
-                    $menuParams = new Registry;
+				if ( $app->input->getInt( 'showall' ) > 0 ) {
+					$original_link .= $symb . "showall=" . $app->input->getInt( 'showall' );
+				}
+				break;
 
-                    if ($menu = $app->getMenu()->getActive())
-                    {
-                        $menuParams->loadString($menu->params);
-                    }
+			case 'frontpage':
+			case 'featured':
+				$link = 'index.php?option=com_content&view=' . $allGet['view'];
+				if ( $app->input->getInt( 'start' ) > 0 ) {
+					$link .= '&start=' . $app->input->getInt( 'start' );
+				}
+				$original_link = JRoute::_( $link );
+				break;
 
-                    $mergedParams = clone $menuParams;
-                    $mergedParams->merge($params);
-                    $itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+			case 'category':
+				$original_link = JRoute::_( ContentHelperRoute::getCategoryRoute( $allGet['id'] ), false );
 
-                    if (($app->input->get('layout') == 'blog') || $params->get('layout_type') == 'blog')
-                    {
-                        $limit = $params->get('num_leading_articles') + $params->get('num_intro_articles');
-                    }
-                    else
-                    {
-                        $limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
-                    }
+				$start = $app->input->getInt( 'start', 0 );
+				if ( $start > 0 ) {
+					$params     = $app->getParams();
+					$menuParams = new Registry;
 
-                    if($start % $limit != 0)
-                    {
-                        $start = intval($start / $limit) * $limit;
-                    }
-                    $original_link .= "?start=" . $start;
-                }
-                break;
-            case 'form':
-                return true;
-                break;
-            default:
-                return false;
-                break;
-        }
+					if ( $menu = $app->getMenu()->getActive() ) {
+						$menuParams->loadString( $menu->params );
+					}
 
-        if ($original_link && ($this->urlEncode($original_link) != $currentLink))
-        {
-            $this->shRedirect($original_link);
-        }
-        return true;
-    }
+					$mergedParams = clone $menuParams;
+					$mergedParams->merge( $params );
+					$itemid = $app->input->get( 'id', 0, 'int' ) . ':' . $app->input->get( 'Itemid', 0, 'int' );
+
+					if ( ( $app->input->get( 'layout' ) == 'blog' ) || $params->get( 'layout_type' ) == 'blog' ) {
+						$limit = $params->get( 'num_leading_articles' ) + $params->get( 'num_intro_articles' );
+					} else {
+						$limit = $app->getUserStateFromRequest( 'com_content.category.list.' . $itemid . '.limit', 'limit', $params->get( 'display_num' ), 'uint' );
+					}
+
+					if ( $start % $limit != 0 ) {
+						$start = intval( $start / $limit ) * $limit;
+					}
+					$original_link .= "?start=" . $start;
+				}
+				break;
+			case 'form':
+				return true;
+				break;
+			default:
+				return false;
+				break;
+		}
+
+		if ( $original_link && ( $this->urlEncode( $original_link ) != $currentLink ) ) {
+			$this->shRedirect( $original_link );
+		}
+
+		return true;
+	}
 }
