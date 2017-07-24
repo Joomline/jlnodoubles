@@ -61,7 +61,78 @@
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
-
+     <field
+                        name="itemsfix0"
+                        type="text"
+                        label="Articles items to Fix"
+                        description=""
+                        />
+                <field
+                        name="itemId0"
+                        type="text"
+                        label="ItemId to Fix 0"
+                        description=""
+                        />
+                <field
+                        name="itemsfix1"
+                        type="text"
+                        label="Articles items to Fix"
+                        description=""
+                        />
+                <field
+                        name="itemId1"
+                        type="text"
+                        label="ItemId to Fix 1"
+                        description=""
+                        />
+                <field
+                        name="itemsfix2"
+                        type="text"
+                        label="Articles items to Fix"
+                        description=""
+                        />
+                <field
+                        name="itemId2"
+                        type="text"
+                        label="ItemId to Fix 2"
+                        description=""
+                        />
+                <field
+                        name="itemsfix3"
+                        type="text"
+                        label="Articles items to Fix"
+                        description=""
+                        />
+                <field
+                        name="itemId3"
+                        type="text"
+                        label="ItemId to Fix 3"
+                        description=""
+                        />
+                <field
+                        name="itemsfix4"
+                        type="text"
+                        label="Items to Fix"
+                        description=""
+                        />
+                <field
+                        name="itemId4"
+                        type="text"
+                        label="ItemId to Fix 4"
+                        description=""
+                        />
+                <field
+                        name="itemsfix5"
+                        type="text"
+                        label="Items to Fix"
+                        description=""
+                        />
+                <field
+                        name="itemId5"
+                        type="text"
+                        label="ItemId to Fix 5"
+                        description=""
+                        />
                 <field
                         name="homealias"
                         type="text"
