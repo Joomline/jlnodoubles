@@ -55,6 +55,9 @@ class JLNodoubles_com_hikashop_helper extends JLNodoublesHelper
 	            $original_link = JRoute::_('index.php?option=com_hikashop&view=product&layout=listing');
 	            break;
             case 'product':
+	            if(empty($name)){
+		            $name = $this->getProductName($cid);
+	            }
 	            $original_link = hikashopTagRouteHelper::getProductRoute($cid.':'.$name, 0, $allGet["lang"]);
 	            break;
             case '':
@@ -69,6 +72,16 @@ class JLNodoubles_com_hikashop_helper extends JLNodoublesHelper
         return true;
     }
 
+    private function getProductName($cid){
+    	if(!$cid){
+    		return '';
+	    }
+    	$db = JFactory::getDbo();
+    	$query = $db->getQuery(true);
+    	$query->select('product_alias')->from('#__hikashop_product')->where('product_id = '.(int)$cid);
+    	$result = $db->setQuery($query,0,1)->loadResult();
+    	return (string)$result;
+    }
 
 	private function getCategoryLink($cid, $alias='', $Itemid=0) {
 		if(!is_object($cid)){
