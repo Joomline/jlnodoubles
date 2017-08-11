@@ -61,7 +61,7 @@
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
-     <field
+   <!--  <field
                         name="itemsfix0"
                         type="text"
                         label="Articles items to Fix"
@@ -132,7 +132,7 @@
                         type="text"
                         label="ItemId to Fix 5"
                         description=""
-                        />
+                        />-->
                 <field
                         name="homealias"
                         type="text"
