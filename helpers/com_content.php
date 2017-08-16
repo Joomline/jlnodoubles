@@ -45,9 +45,10 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper {
 
 				for ( $i = 0; $i < 6; $i ++ )
 				{
-					if ( !empty($this->params->get( 'itemsfix' . $i )) )
+					$itemsfix = $this->params->get( 'itemsfix' . $i );
+					if ( !empty($itemsfix) )
 					{
-						$itemsfix_array = explode( ",", $this->params->get( 'itemsfix' . $i ) );
+						$itemsfix_array = explode( ",", $itemsfix );
 						$itemIdfix      = $this->params->get( 'itemId' . $i );
 						if ( in_array( $item->id, $itemsfix_array ) )
 						{
