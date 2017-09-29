@@ -81,6 +81,11 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper {
 
 			case 'frontpage':
 			case 'featured':
+
+				if(JUri::root() == JUri::current()){
+					return true;
+				}
+
 				$link = 'index.php?option=com_content&view=' . $allGet['view'];
 				if ( $app->input->getInt( 'start' ) > 0 ) {
 					$link .= '&start=' . $app->input->getInt( 'start' );
