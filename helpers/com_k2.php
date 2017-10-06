@@ -23,7 +23,9 @@ class JLNodoubles_com_k2_helper extends JLNodoublesHelper
     {
         $uri = JUri::getInstance();
         $currentLink = $uri->toString(array('path', 'query'));
-        $start = JFactory::getApplication()->input->getInt('start', 0);
+	    $app = JFactory::getApplication();
+        $start = $app->input->getInt('start', 0);
+	    $layout = $app->input->getCmd('layout', '');
         JTable::addIncludePath(JPATH_ROOT.'/administrator/components/com_k2/tables');
 
         $limitstring = '';
@@ -60,6 +62,27 @@ class JLNodoubles_com_k2_helper extends JLNodoublesHelper
         {
             $tag = JFactory::getApplication()->input->getString('tag');
             $original_link = JRoute::_(K2HelperRoute::getTagRoute($tag), false).$limitstring;
+        }
+        else if($allGet['view'] == 'itemlist' && $layout == 'category')
+        {
+	        $menus = $app->getMenu();
+	        $menu = $menus->getActive();
+
+	        if($menu->query['option'] == 'com_k2' && $menu->query['view'] == $allGet['view'] && $menu->query['layout'] == $layout)
+	        {
+		        $link = 'index.php?option=com_k2&Itemid='.$menu->id;
+		        $original_link = JRoute::_($link, false);
+	        }
+	        else{
+		        $Itemid = $app->input->getInt('Itemid', 0);
+		        if($Itemid > 0){
+			        $limitstring .= '&Itemid='.$Itemid;
+		        }
+		        $link = 'index.php?option=com_k2&view=itemlist&layout=category'.$limitstring;
+
+		        $original_link = JRoute::_($link, false);
+	        }
+
         }
         else
         {
