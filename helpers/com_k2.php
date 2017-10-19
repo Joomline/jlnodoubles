@@ -39,7 +39,7 @@ class JLNodoubles_com_k2_helper extends JLNodoublesHelper
             $limitstring .= "?start=" . $start;
         }
 
-        if($allGet['view'] == 'item' && $allGet['task'] == '')
+        if($allGet['view'] == 'item' &&  ($allGet['task'] == '' || $allGet['task'] == $allGet['id']))
         {
             $item = JTable::getInstance('K2Item', 'Table');
             $item->load($allGet['id']);
