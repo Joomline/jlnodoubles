@@ -31,8 +31,15 @@ class JLNodoublesHelper{
     public function shRedirect($link)
     {
         if ($this->params->get('301redirect', 1)) {
-            header('HTTP/1.1 301 Moved Permanently');
-            header('Location: ' . $link);
+            if (headers_sent())
+		    {
+			    echo "<script>document.location.href='" . str_replace("'","&apos;",$link) . "';</script>\n";
+		    }
+		    else
+		    {
+		        header('HTTP/1.1 301 Moved Permanently');
+                header('Location: ' . $link);
+		    }
         } else {
             JError::raiseError(404, JText::_('PLG_JLNODUBLES_NOPAGE'));
             return false;
