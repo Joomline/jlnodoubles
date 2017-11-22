@@ -3,7 +3,7 @@
 <extension version="3.4" type="plugin" group="system" method="upgrade">
     <name>PLG_JLNODUBLES</name>
     <author>JoomLine</author>
-    <creationDate>13.10.2017</creationDate>
+    <creationDate>22.11.2017</creationDate>
     <copyright>Copyright (C) 2014 - 2017 Joomline. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>sale@joomline.ru</authorEmail>
