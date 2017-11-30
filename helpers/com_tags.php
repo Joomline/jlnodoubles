@@ -39,10 +39,13 @@ class JLNodoubles_com_tags_helper extends JLNodoublesHelper
                 break;
             case 'tag':
                 $tagIds = $app->input->get('id', array(), 'array');
-                ArrayHelper::toInteger($tagIds);
 
                 if(count($tagIds) == 1){
                     $tagId = array_shift($tagIds);
+                    $parts = explode(':', $tagId);
+                    if(empty($parts[1])){
+	                    $tagId = (int)$tagId.':'.$this->getAlas($tagId);
+                    }
                     $original_link = JRoute::_(TagsHelperRoute::getTagRoute($tagId).$start, false);
                 }
                 else if(count($tagIds) > 1)
@@ -50,6 +53,11 @@ class JLNodoubles_com_tags_helper extends JLNodoublesHelper
                     $tagString = 'index.php?option=com_tags&view=tag';
                     foreach ($tagIds as $key => $tagId)
                     {
+	                    $parts = explode(':', $tagId);
+	                    if(empty($parts[1])){
+		                    $tagId = (int)$tagId.':'.$this->getAlas($tagId);
+	                    }
+	                    
                         $tagString .= '&id['.$key.']='.$tagId;
                     }
 
@@ -67,5 +75,12 @@ class JLNodoubles_com_tags_helper extends JLNodoublesHelper
             $this->shRedirect($original_link);
         }
         return true;
+    }
+
+    private function getAlas($tagId){
+    	$db = JFactory::getDbo();
+    	$query = $db->getQuery(true);
+    	$query->select('alias')->from('#__tags')->where('id = '.(int)$tagId);
+    	return (string)$db->setQuery($query,0,1)->loadResult();
     }
 }
