@@ -61,6 +61,16 @@
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
+                <field
+                        name="fix_layout_bug"
+                        type="list"
+                        default="0"
+                        label="PLG_JLNODUBLES_FIX_LAYOUT_BUG"
+                        description="PLG_JLNODUBLES_FIX_LAYOUT_BUG_DESC"
+                        >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
    <!--  <field
                         name="itemsfix0"
                         type="text"

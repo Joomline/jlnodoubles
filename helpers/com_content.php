@@ -24,6 +24,7 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper {
 		$uri           = JUri::getInstance();
 		$homealias     = $this->params->get( 'homealias', 'home' );
 		$currentLink   = $uri->toString( array( 'path', 'query' ) );
+		$fixLayoutBug = $this->params->get( 'fix_layout_bug', 0 );
 
 		switch ( $allGet['view'] ) {
 			case 'article':
@@ -97,7 +98,7 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper {
 
 			case 'category':
 				$original_link = JRoute::_( ContentHelperRoute::getCategoryRoute( $allGet['id'] ), false );
-
+				$delimiter = '?';
 				$start = $app->input->getInt( 'start', 0 );
 				if ( $start > 0 ) {
 					$params     = $app->getParams();
@@ -120,8 +121,20 @@ class JLNodoubles_com_content_helper extends JLNodoublesHelper {
 					if ( $start % $limit != 0 ) {
 						$start = intval( $start / $limit ) * $limit;
 					}
-					$original_link .= "?start=" . $start;
+					$original_link .= $delimiter."start=" . $start;
+					$delimiter = '&';
 				}
+
+				if($fixLayoutBug)
+				{
+					if(isset($_REQUEST['layout']) && strpos($original_link, 'layout='.$allGet['layout']) === false){
+						$original_link .= $delimiter.'layout='.$allGet['layout'];
+					}
+					else{
+						$original_link = str_replace(array('?layout='.$allGet['layout'], '&layout='.$allGet['layout']), '', $original_link);
+					}
+				}
+
 				break;
 			case 'form':
 				return true;
