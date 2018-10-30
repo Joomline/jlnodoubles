@@ -81,7 +81,8 @@ class JLNodoubles_com_jshopping_helper extends JLNodoublesHelper
         }
 
         $app = JFactory::getApplication();
-        $limit = $app->getUserStateFromRequest($context.'limit', 'limit', JSFactory::getConfig()->count_products_to_page, 'int');
+        $limit = $app->getUserStateFromRequest($context.'limit', 'limit', 0, 'int');
+	$limit = $limit ?: JSFactory::getConfig()->count_products_to_page;
 
         if($start%$limit != 0)
         {
