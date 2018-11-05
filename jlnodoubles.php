@@ -188,6 +188,11 @@ class plgSystemJlnodoubles extends JPlugin
         if(!self::$sef) return true;
 
         $application = JFactory::getApplication();
+
+        if($application->getName() != 'site'){
+            return;
+        }
+
         $router = $application->getRouter();
         if ($router->getMode() == JROUTER_MODE_SEF) {
             $router->attachBuildRule(array(&$this, 'build'));
