@@ -19,16 +19,13 @@ require_once JPATH_ROOT . '/plugins/system/jlnodoubles/helpers/helper.php';
 class plgSystemJlnodoubles extends JPlugin
 {
     public static $noRedirect = null;
-    public static $isPro = null;
+    public static $isPro = true;
     public static $sef;
 
     function __construct(&$subject, $config = array())
     {
         parent::__construct($subject, $config);
-        if(is_null(self::$isPro))
-        {
-            self::$isPro = (JLNodoublesHelper::allow($this->params->get('key'))) ? true : false;
-        }
+        
 
         self::$noRedirect = $this->stopWords();
         self::$sef = JFactory::getConfig()->get('sef', 0);

@@ -3,12 +3,12 @@
 <extension version="3.4" type="plugin" group="system" method="upgrade">
     <name>PLG_JLNODUBLES</name>
     <author>JoomLine</author>
-    <creationDate>22.11.2017</creationDate>
-    <copyright>Copyright (C) 2014 - 2017 Joomline. All rights reserved.</copyright>
+    <creationDate>03.07.2019</creationDate>
+    <copyright>Copyright (C) 2014 - 2019 Joomline. All rights reserved.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>sale@joomline.ru</authorEmail>
     <authorUrl>joomline.ru</authorUrl>
-    <version>2.4.3</version>
+    <version>2.5.0</version>
     <description>PLG_JLNODUBLES_XML_DESCRIPTION</description>
     <files>
         <filename plugin="jlnodoubles">jlnodoubles.php</filename>
@@ -37,13 +37,6 @@
 
             </fieldset>
             <fieldset name="basic">
-                <field
-                        name="key"
-                        type="text"
-                        default=""
-                        label="PLG_JLNODUBLES_KEY"
-                        description="PLG_JLNODUBLES_KEY_DESC"
-                        />
                 <field
                         name="limits"
                         type="text"

@@ -57,7 +57,7 @@ class JFormFieldComponents extends JFormField
 
         $plugin = JPluginHelper::getPlugin('system', 'jlnodoubles');
         $pluginParams = new JRegistry($plugin->params);
-        $allow = (JLNodoublesHelper::allow($pluginParams->get('key', ''))) ? true : false;
+        $allow = (JLNodoublesHelper::allow($pluginParams->get('key', ''))) ? true : true;
 
         $all = JText::_('PLG_JLNODUBLES_ALL_COMPONENTS');
         array_unshift($components, $all);
