@@ -155,5 +155,5 @@
             </fieldset>
         </fields>
     </config>
-    <updateservers><server type="extension" priority="1" name="Slogin">https://joomline.net/update.html?extension_id=4.xml</server></updateservers>
+    <updateservers><server type="extension" priority="1" name="JL No Doubles">https://joomline.net/update.html?extension_id=4.xml</server></updateservers>
 </extension>
