@@ -155,5 +155,5 @@
             </fieldset>
         </fields>
     </config>
-<updateservers><server type="extension" priority="1" name="Joomline">https://joomline.net/index.php?option=com_ars&amp;view=update&amp;task=stream&amp;format=xml&amp;id=10&amp;dummy=extension.xml</server></updateservers>
+    <updateservers><server type="extension" priority="1" name="Slogin">https://joomline.net/update.html?extension_id=4.xml</server></updateservers>
 </extension>
