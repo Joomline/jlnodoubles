@@ -1,5 +1,10 @@
 /**
- * Created by Аркадий on 02.03.2015.
+ * @package plg_jlnodubles
+ * @author Arkadiy (a.sedelnikov@gmail.com), Vadim Kunicin (vadim@joomline.ru), Sher ZA (irina@hekima.ru).
+ * @version 2.5.1
+ * @copyright (C) 2014-2019 by JoomLine (http://www.joomline.net)
+ * @license GNU/GPL: http://www.gnu.org/copyleft/gpl.html
+ *
  */
 
 var shnodoubles = {
