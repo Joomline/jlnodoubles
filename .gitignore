@@ -4,4 +4,4 @@
 .packages
 _dist
 _build
-.zip
+*.zip
