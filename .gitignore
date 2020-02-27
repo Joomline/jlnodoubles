@@ -1,0 +1,7 @@
+.idea
+.vscode
+.phing
+.packages
+_dist
+_build
+.zip
