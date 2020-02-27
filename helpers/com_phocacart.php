@@ -28,6 +28,8 @@ class JLNodoubles_com_phocacart_helper extends JLNodoublesHelper
         $id = (int)$app->input->getInt('id', 0);
 	    $catid = (int)$app->input->getInt('catid', 0);
 
+        $start = (int)$app->input->getInt('start', 0);
+
         switch ($allGet["view"])
         {
             case 'categories':
@@ -36,10 +38,30 @@ class JLNodoubles_com_phocacart_helper extends JLNodoublesHelper
             case 'category':
                 $routeInfo = PhocacartRoute::getIdForItemsRoute();
 	            $original_link = JRoute::_(PhocacartRoute::getCategoryRoute($routeInfo['id'], $routeInfo['alias']));
+                if($start){
+                    $paramsC 			= $app->getParams();
+                    $item_pagination	= $paramsC->get( 'item_pagination_default', '20' );
+                    $limit = $app->getUserStateFromRequest('com_phocacart.limit', 'limit', $item_pagination, 'int');
+                    if($start % $limit != 0){
+                        $start = round($start/$limit) * $limit;
+                    }
+                    $delimiter = mb_strpos($original_link, '?') === false ? '?' : '&';
+                    $original_link .= $delimiter.'start='.$start;
+                }
 	            break;
             case 'items':
                 $routeInfo = PhocacartRoute::getIdForItemsRoute();
 	            $original_link = JRoute::_(PhocacartRoute::getItemsRoute($routeInfo['id'], $routeInfo['alias']));
+                if($start){
+                    $paramsC 			= $app->getParams();
+                    $item_pagination	= $paramsC->get( 'item_pagination_default', '20' );
+                    $limit = $app->getUserStateFromRequest('com_phocacart.limit', 'limit', $item_pagination, 'int');
+                    if($start % $limit != 0){
+                        $start = round($start/$limit) * $limit;
+                    }
+                    $delimiter = mb_strpos($original_link, '?') === false ? '?' : '&';
+                    $original_link .= $delimiter.'start='.$start;
+                }
 	            break;
             case 'item':
                 $product = PhocacartProduct::getProduct($id);
